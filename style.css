@@ -1,0 +1,34 @@
+/* À toi de jouer : c'est ici que vit tout le design.
+
+   PALETTES
+   - Déclare tes couleurs dans :root (--bg, --text, --accent, ...), puis utilise
+     seulement var(--...) ailleurs : tu pourras mélanger les deux palettes sans
+     rien réécrire.
+
+   CROCHETS LAISSÉS PAR LE CODE
+   - .skip-link              lien "Aller au contenu" (à cacher hors focus)
+   - nav a[aria-current]     lien de la section visible
+   - #triangle { --vertex-a: #ff5d62; --vertex-b: #3dd68c; --vertex-c: #5b9bff; }
+       couleurs des sommets du triangle (format #rrggbb)
+   - #triangle { image-rendering: pixelated; }   gros pixels nets
+
+   BLOCS "FEATURE"  (.feature > .feature-media + .feature-body)
+   - Deux colonnes : .feature { display: grid; grid-template-columns: 1fr 1fr; }
+   - Alternance : .feature:nth-child(even) .feature-media { order: 2; }
+       (attention : le <h2> est le 1er enfant de la section, donc les .feature
+        sont les enfants 2, 3, 4 : teste avec :nth-of-type ou une classe)
+   - Une colonne sur mobile (@media (max-width: ...))
+   - Les <img> ont width/height : mets img { max-width: 100%; height: auto; }
+
+   CARTES (.cards > .card)
+   - Liste : .cards { list-style: none; padding: 0; display: grid; }
+   - Carte entièrement cliquable sans JS :
+       .card { position: relative; }
+       .card-title a::after { content: ""; position: absolute; inset: 0; }
+       .card:hover / .card:focus-within pour l'état actif
+   - .card-category = petite étiquette au-dessus du titre
+
+   ACCESSIBILITÉ
+   - Garde un :focus-visible bien visible
+   - @media (prefers-reduced-motion) et (prefers-color-scheme)
+*/

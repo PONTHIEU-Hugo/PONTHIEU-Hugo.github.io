@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- TODO : remplace "Ton Prénom" et la description (max ~160 caractères) -->
+  <title>Ton Prénom – Développeur C++</title>
+  <meta name="description" content="TODO : une phrase qui résume ton profil.">
+
+  <!-- Aperçu lors d'un partage de lien -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TODO">
+  <meta property="og:description" content="TODO">
+  <meta property="og:url" content="https://TON-PSEUDO.github.io/">
+  <!-- TODO plus tard : image 1200x630 dans images/, puis décommente -->
+  <!-- <meta property="og:image" content="https://TON-PSEUDO.github.io/images/apercu.png"> -->
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="site-header">
+    <a class="brand" href="#top">TODO nom</a>
+    <!-- Chaque href doit correspondre à l'id d'une <section> plus bas -->
+    <nav aria-label="Navigation principale">
+      <a href="#domaines">Domaines</a>
+      <a href="#projets">Projets</a>
+      <a href="#a-propos">À propos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="contenu">
+
+    <!-- ===== HERO ===== -->
+    <section id="top" class="hero" aria-labelledby="titre-hero">
+      <div class="hero-text">
+        <h1 id="titre-hero">TODO titre d'accroche</h1>
+        <p class="lead">TODO sous-titre</p>
+        <p class="actions">
+          <a class="button" href="#projets">TODO bouton principal</a>
+          <a class="button button-secondary" href="https://github.com/TON-PSEUDO" rel="noopener">GitHub</a>
+        </p>
+      </div>
+      <figure class="hero-figure">
+        <!-- Optionnel : supprime tout le <figure> si tu ne veux pas du triangle -->
+        <canvas id="triangle" width="160" height="120" role="img" aria-label="TODO description du canvas"></canvas>
+        <figcaption>TODO légende</figcaption>
+      </figure>
+    </section>
+
+    <!-- ===== DOMAINES (blocs "feature") ===== -->
+    <section id="domaines" aria-labelledby="titre-domaines">
+      <h2 id="titre-domaines">TODO titre de section</h2>
+
+      <!-- MODÈLE : copie ce bloc <article> autant de fois que nécessaire -->
+      <article class="feature">
+        <div class="feature-media">
+          <!-- TODO : remplace src, et décris l'image dans alt -->
+          <img src="images/placeholder.svg" width="1200" height="675" loading="lazy" alt="TODO">
+        </div>
+        <div class="feature-body">
+          <h3>TODO titre</h3>
+          <p>TODO texte court</p>
+          <p><a class="feature-link" href="projets/TODO-slug/">TODO texte du lien</a></p>
+        </div>
+      </article>
+      <!-- /MODÈLE -->
+
+    </section>
+
+    <!-- ===== PROJETS (cartes) ===== -->
+    <section id="projets" aria-labelledby="titre-projets">
+      <h2 id="titre-projets">Projets</h2>
+      <ul class="cards">
+
+        <!-- MODÈLE : copie ce bloc <li> autant de fois que nécessaire -->
+        <li class="card">
+          <p class="card-category">TODO catégorie</p>
+          <h3 class="card-title"><a href="projets/TODO-slug/">TODO nom du projet</a></h3>
+          <p class="card-text">TODO description en une ou deux phrases</p>
+        </li>
+        <!-- /MODÈLE -->
+
+      </ul>
+    </section>
+
+    <!-- ===== À PROPOS ===== -->
+    <section id="a-propos" aria-labelledby="titre-apropos">
+      <h2 id="titre-apropos">À propos</h2>
+      <p>TODO</p>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" aria-labelledby="titre-contact">
+      <h2 id="titre-contact">Contact</h2>
+      <p>TODO : <a href="mailto:ton.email@exemple.fr">ton.email@exemple.fr</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <!-- #year est rempli par main.js -->
+    <p>© <span id="year">2026</span> TODO nom</p>
+  </footer>
+</body>
+</html>

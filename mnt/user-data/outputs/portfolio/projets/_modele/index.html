@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!--
+    MODÈLE DE PAGE PROJET
+    1. Copie ce dossier : projets/_modele/  ->  projets/mon-projet/   (sans le "_")
+       (à ma connaissance, GitHub Pages ignore les dossiers qui commencent par "_" :
+        le modèle lui-même n'est donc pas publié)
+    2. Remplace tous les TODO.
+    3. Les chemins ../../ remontent de deux dossiers pour retrouver css/, js/, images/ :
+       garde-les tant que la page reste dans projets/<nom>/index.html
+  -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TODO nom du projet – Ton Prénom</title>
+  <meta name="description" content="TODO une phrase sur le projet.">
+  <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="site-header">
+    <a class="brand" href="../../">TODO nom</a>
+    <nav aria-label="Navigation principale">
+      <a href="../../#projets">Projets</a>
+      <a href="../../#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="contenu">
+    <!-- Fil d'Ariane : le dernier élément n'est pas un lien -->
+    <nav class="breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../">Accueil</a></li>
+        <li><a href="../../#projets">Projets</a></li>
+        <li aria-current="page">TODO nom du projet</li>
+      </ol>
+    </nav>
+
+    <article class="project-page">
+      <header>
+        <h1>TODO nom du projet</h1>
+        <p class="lead">TODO résumé en une phrase</p>
+        <ul class="tags" aria-label="Technologies">
+          <li>TODO</li>
+        </ul>
+        <p><a href="https://github.com/TON-PSEUDO/TODO-depot" rel="noopener">Voir le code sur GitHub</a></p>
+      </header>
+
+      <!-- Sommaire : main.js le remplit à partir des <h2> (voir TODO dans js/main.js) -->
+      <nav class="toc" aria-label="Sur cette page">
+        <p class="toc-title">Sur cette page</p>
+        <ol id="toc"></ol>
+      </nav>
+
+      <figure>
+        <img src="../../images/placeholder.svg" width="1200" height="675" alt="TODO">
+        <figcaption>TODO légende</figcaption>
+      </figure>
+
+      <!-- Les <h2> alimentent le sommaire : garde-en de courts et distincts -->
+      <section>
+        <h2>Objectif</h2>
+        <p>TODO</p>
+      </section>
+      <section>
+        <h2>Fonctionnement</h2>
+        <p>TODO</p>
+      </section>
+      <section>
+        <h2>Difficultés rencontrées</h2>
+        <p>TODO</p>
+      </section>
+      <section>
+        <h2>Résultat</h2>
+        <p>TODO</p>
+      </section>
+    </article>
+
+    <!-- Projet précédent / suivant : supprime un lien aux extrémités de la liste -->
+    <nav class="pager" aria-label="Autres projets">
+      <a rel="prev" href="../TODO-precedent/">TODO projet précédent</a>
+      <a rel="next" href="../TODO-suivant/">TODO projet suivant</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year">2026</span> TODO nom</p>
+  </footer>
+</body>
+</html>
