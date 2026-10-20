@@ -1,34 +1,417 @@
-/* À toi de jouer : c'est ici que vit tout le design.
+/* =====================================================================
+   PALETTE : À REMPLACER par les couleurs de ton design.
+   Tout le reste du fichier n'utilise que ces variables : change-les ici
+   et tout le site suit.
+   ===================================================================== */
+:root {
+  --bg:            #14161a;  /* fond de page */
+  --surface:       #1c1f25;  /* cartes, zones surélevées */
+  --surface-hover: #232730;  /* carte survolée */
+  --border:        #2e333c;  /* bordures et séparateurs */
+  --text:          #e9ecf1;  /* texte principal */
+  --text-muted:    #9aa4b2;  /* texte secondaire, étiquettes */
+  --accent:        #f5a524;  /* boutons, éléments importants */
+  --accent-text:   #14161a;  /* texte posé sur --accent */
+  --link:          #58a6ff;  /* liens dans le texte */
+  --focus:         #58a6ff;  /* anneau de focus clavier */
 
-   PALETTES
-   - Déclare tes couleurs dans :root (--bg, --text, --accent, ...), puis utilise
-     seulement var(--...) ailleurs : tu pourras mélanger les deux palettes sans
-     rien réécrire.
+  /* Couleurs des sommets du triangle (format #rrggbb, lues par main.js) */
+  --vertex-a: #ff5d62;
+  --vertex-b: #3dd68c;
+  --vertex-c: #5b9bff;
 
-   CROCHETS LAISSÉS PAR LE CODE
-   - .skip-link              lien "Aller au contenu" (à cacher hors focus)
-   - nav a[aria-current]     lien de la section visible
-   - #triangle { --vertex-a: #ff5d62; --vertex-b: #3dd68c; --vertex-c: #5b9bff; }
-       couleurs des sommets du triangle (format #rrggbb)
-   - #triangle { image-rendering: pixelated; }   gros pixels nets
+  /* Typographie : polices système (aucune requête vers un serveur tiers).
+     Pour une police perso, ajoute un @font-face (fichier dans fonts/)
+     et mets son nom en premier ici. */
+  --font-display: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body:    system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-   BLOCS "FEATURE"  (.feature > .feature-media + .feature-body)
-   - Deux colonnes : .feature { display: grid; grid-template-columns: 1fr 1fr; }
-   - Alternance : .feature:nth-child(even) .feature-media { order: 2; }
-       (attention : le <h2> est le 1er enfant de la section, donc les .feature
-        sont les enfants 2, 3, 4 : teste avec :nth-of-type ou une classe)
-   - Une colonne sur mobile (@media (max-width: ...))
-   - Les <img> ont width/height : mets img { max-width: 100%; height: auto; }
+  /* Mise en page */
+  --gutter: clamp(1.25rem, 5vw, 3rem);
+  --max: 72rem;
+  --radius: 10px;
+}
 
-   CARTES (.cards > .card)
-   - Liste : .cards { list-style: none; padding: 0; display: grid; }
-   - Carte entièrement cliquable sans JS :
-       .card { position: relative; }
-       .card-title a::after { content: ""; position: absolute; inset: 0; }
-       .card:hover / .card:focus-within pour l'état actif
-   - .card-category = petite étiquette au-dessus du titre
+/* =====================================================================
+   BASE
+   ===================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
 
-   ACCESSIBILITÉ
-   - Garde un :focus-visible bien visible
-   - @media (prefers-reduced-motion) et (prefers-color-scheme)
-*/
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* évite que l'en-tête collant masque les ancres */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  line-height: 1.15;
+}
+
+p { margin: 0 0 1rem; }
+
+a { color: var(--link); text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 2px; }
+
+img { max-width: 100%; height: auto; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Lien d'évitement : invisible tant qu'il n'a pas le focus */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 700;
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+.skip-link:focus { top: 1rem; }
+
+/* =====================================================================
+   EN-TÊTE
+   ===================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  padding: 0.9rem var(--gutter);
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.site-header nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
+
+.site-header nav a {
+  padding: 0.25rem 0;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.site-header nav a:hover { color: var(--text); }
+.site-header nav a[aria-current] {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+/* =====================================================================
+   MISE EN PAGE DES SECTIONS
+   ===================================================================== */
+main > section,
+.breadcrumb,
+.project-page,
+.pager {
+  width: min(100% - 2 * var(--gutter), var(--max));
+  margin-inline: auto;
+}
+
+main > section { padding-block: clamp(3rem, 7vw, 5.5rem) 0; }
+
+main > section > h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  margin-bottom: 2rem;
+}
+
+/* =====================================================================
+   HERO
+   ===================================================================== */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding-top: clamp(3rem, 8vw, 6rem); /* la classe l'emporte sur main > section */
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 5.4vw, 4rem);
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  max-width: 48ch;
+  margin: 1.5rem 0 2rem;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+}
+
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0; }
+
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.4rem;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  transition: filter 0.15s ease;
+}
+.button:hover { filter: brightness(1.1); }
+
+.button-secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+.button-secondary:hover { border-color: var(--text-muted); filter: none; }
+
+.hero-figure { margin: 0; }
+
+#triangle {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  image-rendering: pixelated; /* garde les gros pixels nets */
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.hero-figure figcaption {
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* =====================================================================
+   BLOCS "FEATURE" : image + texte, alternance gauche/droite
+   ===================================================================== */
+.feature {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  margin-bottom: clamp(3rem, 7vw, 5rem);
+}
+.feature:last-child { margin-bottom: 0; }
+
+/* :nth-of-type compte uniquement les <article> (le <h2> est ignoré) */
+.feature:nth-of-type(even) .feature-media { order: 2; }
+
+.feature-media img {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.feature-body h3 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  margin-bottom: 0.75rem;
+}
+.feature-body p { color: var(--text-muted); max-width: 52ch; }
+
+.feature-link {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* =====================================================================
+   CARTES DE PROJETS (liste de liens, style documentation)
+   ===================================================================== */
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  gap: 1rem;
+}
+
+.card {
+  position: relative; /* nécessaire pour étendre le lien à toute la carte */
+  padding: 1.25rem 1.4rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.card:hover,
+.card:focus-within {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+}
+
+.card-category {
+  margin: 0 0 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.card-title { font-size: 1.25rem; margin-bottom: 0.5rem; }
+.card-title a { color: var(--text); text-decoration: none; }
+.card-title a:hover { text-decoration: underline; }
+
+/* Le lien du titre couvre toute la carte : un seul lien, toute la carte cliquable */
+.card-title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+}
+/* Quand le lien a le focus, l'anneau entoure la carte entière */
+.card-title a:focus-visible { outline: none; }
+.card:has(.card-title a:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.card-text { margin: 0; color: var(--text-muted); }
+
+/* =====================================================================
+   PAGE PROJET
+   ===================================================================== */
+.breadcrumb { padding-top: 2rem; font-size: 0.95rem; }
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.breadcrumb li + li::before {
+  content: "/";
+  margin-right: 0.6rem;
+  color: var(--text-muted);
+}
+.breadcrumb [aria-current="page"] { color: var(--text-muted); }
+
+.project-page { padding-block: 2rem 1rem; max-width: 52rem; }
+.project-page h1 { font-size: clamp(2rem, 4.5vw, 3rem); }
+.project-page h2 { font-size: 1.6rem; margin: 2.5rem 0 0.75rem; }
+.project-page figure { margin: 2rem 0; }
+.project-page figure img {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.project-page figcaption {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+.tags li {
+  padding: 0.15rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.toc {
+  margin: 2rem 0;
+  padding: 1rem 1.4rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.toc-title { margin: 0 0 0.5rem; font-weight: 700; }
+.toc ol { margin: 0; padding-left: 1.2rem; }
+.toc a { color: var(--link); }
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 2rem 0;
+}
+.pager a {
+  max-width: 48%;
+  padding: 0.8rem 1.1rem;
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.pager a:hover { border-color: var(--accent); }
+.pager a[rel="next"] { margin-left: auto; text-align: right; }
+
+/* =====================================================================
+   PIED DE PAGE
+   ===================================================================== */
+.site-footer {
+  width: min(100% - 2 * var(--gutter), var(--max));
+  margin: clamp(3rem, 7vw, 5rem) auto 0;
+  padding: 1.5rem 0 2.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.site-footer p { margin: 0; }
+
+/* =====================================================================
+   PAGE 404
+   ===================================================================== */
+.page-404 {
+  width: min(100% - 2 * var(--gutter), 40rem);
+  margin: 20vh auto 0;
+}
+.page-404 h1 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1rem; }
+
+/* =====================================================================
+   MOBILE
+   ===================================================================== */
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; }
+
+  .feature { grid-template-columns: 1fr; }
+  /* l'image reste toujours au-dessus du texte */
+  .feature:nth-of-type(even) .feature-media { order: 0; }
+
+  .pager { flex-direction: column; }
+  .pager a { max-width: none; }
+  .pager a[rel="next"] { margin-left: 0; text-align: left; }
+}
+
+/* =====================================================================
+   PRÉFÉRENCES UTILISATEUR
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
