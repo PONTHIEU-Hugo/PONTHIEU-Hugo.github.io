@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!--
+    MODÈLE DE PAGE PROJET
+    1. Copie ce dossier : projets/_modele/  ->  projets/mon-projet/   (sans le "_")
+       (GitHub Pages ignore les dossiers qui commencent par "_" :
+        le modèle lui-même n'est donc pas publié)
+    2. Remplace tous les TODO.
+    3. Les chemins ../../ remontent de deux dossiers pour retrouver css/, js/, images/ :
+       garde-les tant que la page reste dans projets/<nom>/index.html
+    4. Range les médias du projet dans images/projets/<nom>/
+  -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chessy - PONTHIEU Hugo</title>
+  <meta name="description" content="Chessy, DSL de recherche en profondeur pour échecs réalisé en 2 semaines ; développement en C++ par Hugo PONTHIEU">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#14161a">
+  <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/main.js" defer></script>
+</head>
+<body data-wip>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="site-header">
+    <a class="brand" href="../../">PONTHIEU Hugo</a>
+    <nav aria-label="Navigation principale">
+      <a href="../../#projets">Projets</a>
+      <a href="../../#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="contenu">
+    <!-- Fil d'Ariane : le dernier élément n'est pas un lien -->
+    <nav class="breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../">Accueil</a></li>
+        <li><a href="../../#projets">Projets</a></li>
+        <li aria-current="page">Chessy</li>
+      </ol>
+    </nav>
+
+    <!-- PAGE EN COURS D'ÉCRITURE
+         Activer   : <body data-wip>   (le contenu ci-dessous est masqué en ligne)
+         Désactiver : retire data-wip. Ce bloc peut rester, il est invisible sinon.
+         Pour relire le contenu en local : ajoute ?preview à l'adresse (main.js). -->
+    <section class="wip-notice" aria-labelledby="titre-wip">
+      <h1 id="titre-wip">Page en cours d'écriture</h1>
+      <p>Cette page projet n'est pas encore terminée. Reviens bientôt !</p>
+      <a class="button" href="../../#projets">Retour aux projets</a>
+    </section>
+
+    <!-- ===== EN-TÊTE : galerie à gauche, panneau d'infos à droite ===== -->
+    <div class="project-hero">
+      <h1>Chessy</h1>
+
+      <div class="project-top">
+
+        <!-- GALERIE
+             - Chaque miniature est un lien <a class="gallery-thumb"> :
+               sans JavaScript, il ouvre simplement l'image ou la vidéo.
+             - Image :  href = l'image en grand ; l'<img> dedans sert de miniature
+               (tu peux pointer vers une version plus petite, ~400 px de large, pour alléger).
+             - Vidéo YouTube : href = lien youtube.com, data-youtube = l'identifiant de la vidéo
+               (ce qui suit "v=" dans l'adresse), data-poster = ton image d'aperçu.
+               La vidéo ne se charge qu'au clic, via youtube-nocookie.com :
+               aucune requête vers Google tant que le visiteur ne lance pas la lecture.
+             - data-label : texte alternatif de l'image en grand / titre de la vidéo.
+             - Une seule miniature ? Les flèches et la bande disparaissent toutes seules.
+             - Pas de vidéo pour ce projet ? Supprime simplement son <li>. -->
+        <section class="gallery" aria-label="Galerie du projet">
+          <div class="gallery-stage">
+            <div class="gallery-viewer">
+              <!-- Affiché sans JavaScript ; remplacé par la galerie sinon -->
+              <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="">
+            </div>
+            <button type="button" class="gallery-nav gallery-prev" aria-label="Média précédent">‹</button>
+            <button type="button" class="gallery-nav gallery-next" aria-label="Média suivant">›</button>
+          </div>
+
+          <ul class="gallery-thumbs">
+            <li>
+              <!-- MODÈLE vidéo YouTube (non répertoriée : OK, le lien suffit) -->
+              <a class="gallery-thumb gallery-thumb--video"
+                 href="https://www.youtube.com/watch?v=TODO-ID"
+                 data-youtube="TODO-ID"
+                 data-poster="../../images/feature-placeholder.svg"
+                 data-label="TODO titre de la vidéo">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">Vidéo : TODO titre de la vidéo</span>
+              </a>
+            </li>
+            <li>
+              <!-- MODÈLE image : copie ce <li> pour chaque capture -->
+              <a class="gallery-thumb"
+                 href="../../images/feature-placeholder.svg"
+                 data-label="TODO description de la capture 1">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">TODO description de la capture 1</span>
+              </a>
+            </li>
+            <li>
+              <a class="gallery-thumb"
+                 href="../../images/feature-placeholder.svg"
+                 data-label="TODO description de la capture 2">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">TODO description de la capture 2</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <!-- PANNEAU D'INFOS -->
+        <aside class="project-info" aria-label="Fiche du projet">
+          <!-- Image d'en-tête (masquée sur mobile) : une capture représentative -->
+          <img class="project-info-cover" src="../../images/feature-placeholder.svg" width="1200" height="675" alt="">
+          <div class="project-info-body">
+            <p class="project-info-lead">TODO résumé en une phrase</p>
+
+            <!-- Ajoute, retire ou renomme les lignes librement (une paire <dt>/<dd> par ligne) -->
+            <dl class="project-facts">
+              <dt>Contexte</dt><dd>Projet d'école</dd>
+              <dt>Équipe</dt><dd>Binôme</dd>
+              <dt>Mon rôle</dt><dd>Développeur Lexer et VM</dd>
+              <dt>Durée</dt><dd>2 semaines</dd>
+            </dl>
+
+            <ul class="tags" aria-label="Mots-clés">
+              <li>C++</li>
+              <li>SIMD</li>
+              <li>DSL</li>
+              <li>Machine virtuel</li>
+            </ul>
+
+            <a class="button project-info-cta" href="https://github.com/PONTHIEU-Hugo/Chessy" rel="noopener">Voir le code sur GitHub</a>
+            <!-- Code non public ? Remplace le bouton par :
+                 <p class="project-info-note">Code non public (projet d'école).</p> -->
+          </div>
+        </aside>
+
+      </div>
+    </div>
+
+        <!-- ===== TEXTE DU PROJET ===== -->
+    <article class="project-page">
+      <!-- Sommaire : main.js le remplit à partir des <h2> -->
+      <nav class="toc" aria-label="Sur cette page">
+        <p class="toc-title">Sur cette page</p>
+        <ol id="toc"></ol>
+      </nav>
+
+      <!-- Les <h2> alimentent le sommaire : garde-les courts et distincts -->
+      <section><h2>Objectif</h2>
+        <p>
+          L'objectif de ce projet était de concevoir un DSL (Domain Specific Language) en binôme, dans un temps imparti de 2 semaines.
+          Derrière cet objectif de rendu, le projet visait à nous apprendre le fonctionnement d'un CPU.
+          Pour cela, nous avons dû prendre en compte les temps d'accès aux différentes mémoires, la programmation en MASM et le SIMD.
+          À cela s'est ajouté le développement du DSL lui-même, avec sa pipeline complète : Lexer, Parser, analyse sémantique, compilation en bytecode et machine virtuelle.
+        </p>
+        <p>
+          Notre ambition, à mon binôme et moi, était de faire un langage pensé pour la recherche en profondeur d'une IA d'échecs.
+          L'idée : écrire l'algorithme de recherche dans un langage simple et lisible, tout en confiant les opérations coûteuses (génération des coups, bitboards) à du C++ natif.
+          L'objectif final était de pouvoir jouer contre une IA entièrement écrite en Chessy.
+        </p>
+      </section>
+
+      <section><h2>Fonctionnement</h2>
+
+        <h3>Le langage</h3>
+        <p>
+          Chessy est un langage typé statiquement, avec des fichiers à l'extension <code>.chessy</code>.
+          On y retrouve les types entiers classiques (<code>I8</code> à <code>I64</code>, <code>U8</code> à <code>U64</code>), les booléens, mais surtout des types propres aux échecs : <code>Bitboard</code>, <code>Square</code>, <code>Piece</code> et <code>Move</code>.
+          Les fonctions se déclarent avec <code>func</code> et indiquent leur type de retour après <code>:</code>.
+          Voici par exemple le cœur de notre IA, un alpha-beta en négamax écrit directement en Chessy :
+        </p>
+        <pre><code>func AlphaBeta(I32 depth, I32 alpha, I32 beta) : I32 {
+          if (depth == 0) {
+              return Quiescence(alpha, beta, 0);
+          }
+
+          Generate();
+          SortMovesMvvLva();
+          I32 moveTotal = MoveCount();
+
+          if (moveTotal == 0) {
+              if (InCheck(SideToMove())) {
+                  return -100000;
+              }
+              return 0;
+          }
+
+          I32 bestScore = -1000000;
+          I32 moveIndex = 0;
+
+          do {
+              Move currentMove = MoveAt(moveIndex);
+              MakeMove(currentMove);
+              I32 score = -AlphaBeta(depth - 1, -beta, -alpha);
+              UnmakeMove();
+
+              if (score &gt; bestScore) { bestScore = score; }
+              if (score &gt; alpha)     { alpha = score; }
+              if (alpha &gt;= beta)     { moveIndex = moveTotal; }
+              moveIndex = moveIndex + 1;
+          } while (moveIndex &lt; moveTotal);
+
+          return bestScore;
+}</code></pre>
+
+        <h3>La pipeline</h3>
+        <p>
+          Un fichier Chessy passe par cinq étapes avant d'être exécuté.
+          Le Lexer lit le fichier entier en mémoire et le découpe en tokens qui pointent directement dans ce buffer, sans copie de chaîne.
+          Le Parser construit ensuite l'arbre syntaxique ; pour les expressions, il s'appuie sur des « binding powers » (Pratt parsing), qui gèrent la priorité des opérateurs sans multiplier les règles de grammaire.
+          L'Analyser vérifie la sémantique : portée des variables, types des opérations, nombre et types des arguments passés aux fonctions.
+          Le Compiler traduit enfin l'arbre en bytecode, que la machine virtuelle exécute.
+        </p>
+        <p>
+          Sur cette pipeline, je me suis occupé du Lexer, du système de tests et de la machine virtuelle ; mon binôme a pris en charge le Parser, l'Analyser, le Compiler et les fonctions natives d'échecs.
+        </p>
+
+        <h3>La machine virtuelle</h3>
+        <p>
+          Nous avons choisi une VM à registres plutôt qu'une VM à pile.
+          Une VM à pile empile et dépile sans arrêt ses opérandes, alors qu'une VM à registres fait le même travail en moins d'instructions : chaque instruction indique directement où lire ses opérandes et où écrire son résultat.
+          La nôtre possède 256 registres, et chaque instruction est composée d'un opcode et de trois opérandes (A, B, C).
+          Le jeu d'instructions compte une trentaine d'opcodes répartis en familles : accès mémoire (<code>MOV</code>, <code>LOAD</code>, <code>STORE</code>…), arithmétique, opérations bit à bit, comparaisons, sauts conditionnels et appels de fonctions.
+        </p>
+        <p>
+          Comme le langage manipule plusieurs types, une addition entre un <code>I32</code> et un <code>I64</code> n'exécute pas le même code qu'une addition entre deux <code>U8</code>.
+          Plutôt que d'enchaîner des conditions à chaque opération, la VM utilise des tables de pointeurs de fonctions indexées par le type des deux opérandes.
+          Ces tables sont générées à la compilation du C++ (<code>constexpr</code> et <code>std::index_sequence</code>) : à l'exécution, choisir la bonne opération ne coûte qu'un accès à un tableau.
+        </p>
+        <p>
+          Pour les appels de fonctions, chaque appel crée une frame sur une pile dédiée, qui mémorise le début de ses variables locales et sa propre liste de coups.
+          Cette liste par frame est indispensable à la récursion de l'alpha-beta : chaque niveau de profondeur génère ses coups sans écraser ceux du niveau supérieur.
+          Au retour, la valeur est placée dans le registre 0 et l'exécution reprend là où elle s'était arrêtée.
+        </p>
+
+        <h3>Les fonctions natives</h3>
+        <p>
+          Interpréter chaque calcul de bitboard dans la VM aurait été bien trop lent.
+          Chessy expose donc une trentaine de fonctions natives écrites en C++ et appelées via une instruction dédiée (<code>CALL_NATIVE</code>) : génération des coups, <code>MakeMove</code> / <code>UnmakeMove</code>, attaques des pièces, <code>PopCount</code>, tri des coups MVV-LVA…
+          La répartition est simple : la logique de recherche reste en Chessy, lisible et modifiable, et le calcul lourd reste en C++.
+        </p>
+
+        <h3>Les tests</h3>
+        <p>
+          Pour éviter de casser une étape en modifiant la précédente, nous avons mis en place une pipeline de tests qui couvre chaque étape : Lexer, Parser, Analyser et compilation.
+          Elle s'appuie sur des fichiers <code>.chessy</code> dédiés (déclarations, opérations mathématiques, booléennes et binaires, boucles, fonctions) et vérifie que chacun produit exactement les tokens, l'arbre ou le bytecode attendus.
+        </p>
+      </section>
+
+      <section><h2>Difficultés rencontrées</h2>
+        <p>
+          La plus grosse difficulté a été l'assemblage de la pipeline.
+          Le Compiler et la VM ont été développés en parallèle, chacun de notre côté, sans format de bytecode fixé à l'avance.
+          Au moment de les fusionner, le bytecode produit par le Compiler ne correspondait pas toujours à ce qu'attendait ma VM : ordre des opérandes, registre de la valeur de retour, gestion des arguments lors des appels.
+          Il nous a fallu plusieurs merges et de nombreux correctifs avant d'obtenir un premier programme qui s'exécute de bout en bout.
+          <!-- TODO : précise ici ce qui bloquait vraiment juste avant le commit « ENFIN UN TRUC QUI MARCHE » -->
+        </p>
+      </section>
+
+      <section><h2>Résultat</h2>
+        <p>
+          Au bout des deux semaines, Chessy fonctionne de bout en bout : un fichier <code>.chessy</code> est analysé, compilé puis exécuté par notre VM.
+          Notre programme principal, entièrement écrit en Chessy, contient un alpha-beta avec quiescence search et tri des coups MVV-LVA, et permet de jouer contre l'IA directement dans le terminal.
+        </p>
+      </section>
+    </article>
+
+    <!-- Projet précédent / suivant : supprime un lien aux extrémités de la liste -->
+    <nav class="pager" aria-label="Autres projets">
+      <a rel="prev" href="../TeaHouse/">Tea House</a>
+      <a rel="next" href="../HLT_Engine/">HLT Engine</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year">2026</span> PONTHIEU Hugo</p>
+    <p class="credit">Design et contenu : PONTHIEU Hugo. Code écrit par <a href="https://www.anthropic.com/claude" rel="noopener">Claude</a> (modèles Claude Sonnet 5.5 et Claude Opus 5.5, Anthropic).</p>
+  </footer>
+</body>
+</html>

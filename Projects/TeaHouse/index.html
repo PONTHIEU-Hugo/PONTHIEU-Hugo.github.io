@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!--
+    PAGE PROJET : Tea House
+    Les chemins ../../ remontent de deux dossiers pour retrouver css/, js/, images/ :
+    garde-les tant que la page reste dans projets/<nom>/index.html
+    Médias du projet : images/projets/tea-house/
+  -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Nom de la fenêtre dans le navigateur -->
+  <title>Tea House – PONTHIEU Hugo</title>
+  <!-- Description de la page sur Google en dessous du titre -->
+  <meta name="description" content="Tea House, jeu de préparation de thé réalisé en équipe sur Unity en 2 mois ; développement gameplay en C# par Hugo PONTHIEU.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#14161a">
+  <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="site-header">
+    <a class="brand" href="../../">PONTHIEU Hugo</a>
+    <nav aria-label="Navigation principale">
+      <a href="../../#projets">Projets</a>
+      <a href="../../#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="contenu">
+    <!-- Fil d'Ariane : le dernier élément n'est pas un lien -->
+    <nav class="breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../">Accueil</a></li>
+        <li><a href="../../#projets">Projets</a></li>
+        <li aria-current="page">Tea House</li>
+      </ol>
+    </nav>
+
+    <!-- ===== EN-TÊTE : galerie à gauche, panneau d'infos à droite ===== -->
+    <div class="project-hero">
+      <h1>Tea House</h1>
+
+      <div class="project-top">
+
+        <!-- GALERIE
+             - Image :  href = l'image en grand ; l'<img> dedans sert de miniature.
+             - Vidéo YouTube : href = lien youtube.com, data-youtube = l'identifiant
+               (ce qui suit "v=" dans l'adresse), data-poster = ton image d'aperçu.
+               La vidéo ne se charge qu'au clic, via youtube-nocookie.com.
+             - data-label : description de l'image en grand / titre de la vidéo.
+             - Pour ajouter une capture : copie un <li> image. -->
+        <section class="gallery" aria-label="Galerie du projet">
+          <div class="gallery-stage">
+            <div class="gallery-viewer">
+              <!-- Affiché sans JavaScript ; remplacé par la galerie sinon -->
+              <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="">
+            </div>
+            <button type="button" class="gallery-nav gallery-prev" aria-label="Média précédent">‹</button>
+            <button type="button" class="gallery-nav gallery-next" aria-label="Média suivant">›</button>
+          </div>
+
+          <ul class="gallery-thumbs">
+            <li>
+              <!-- Vidéo YouTube non répertoriée : remplace TODO-ID par l'identifiant de la vidéo -->
+              <!-- TODO : Faire et mettre le lien de la vidéo de game loop -->
+              <a class="gallery-thumb gallery-thumb--video"
+                 href="https://www.youtube.com/watch?v=TODO-ID"
+                 data-youtube="TODO-ID"
+                 data-poster="../../images/feature-placeholder.svg"
+                 data-label="Game Loop">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">Vidéo : Game loop Tea House</span>
+              </a>
+            </li>
+            <li>
+              <!-- TODO : images/projets/tea-house/capture-1.webp -->
+              <a class="gallery-thumb"
+                 href="../../images/feature-placeholder.svg"
+                 data-label="TODO description de la capture 1">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">TODO description de la capture 1</span>
+              </a>
+            </li>
+            <li>
+              <!-- TODO : images/projets/tea-house/capture-2.webp -->
+              <a class="gallery-thumb"
+                 href="../../images/feature-placeholder.svg"
+                 data-label="TODO description de la capture 2">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">TODO description de la capture 2</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <!-- PANNEAU D'INFOS -->
+        <aside class="project-info" aria-label="Fiche du projet">
+          <!-- Image d'en-tête (masquée sur mobile) : une capture représentative -->
+          <img class="project-info-cover" src="../../images/feature-placeholder.svg" width="1200" height="675" alt="">
+          <div class="project-info-body">
+            <p class="project-info-lead">Jeu produit en 2 mois sur Unity en équipe dans le but de valider notre deuxième année</p>
+
+            <!-- Ajoute, retire ou renomme les lignes librement (une paire <dt>/<dd> par ligne) -->
+            <dl class="project-facts">
+              <dt>Contexte</dt><dd>Projet de fin de 2ᵉ année</dd>
+              <dt>Équipe</dt><dd>6 personnes (3 techniciens et 3 artistes)</dd>
+              <dt>Mon rôle</dt><dd>Développeur gameplay C#</dd>
+              <dt>Durée</dt><dd>2 mois</dd>
+              <dt>Moteur</dt><dd>Unity</dd>
+            </dl>
+
+            <ul class="tags" aria-label="Technologies">
+              <li>C#</li>
+              <li>3D</li>
+              <li>Unity</li>
+              <li>Render Texture</li>
+              <li>Machine à état</li>
+            </ul>
+
+            <a class="button project-info-cta" href="https://github.com/PorteMaxime/Tea-House" rel="noopener">Voir le code sur GitHub</a>
+            <!-- Code non public ? Remplace le bouton par :
+                 <p class="project-info-note">Code non public (projet d'école).</p> -->
+          </div>
+        </aside>
+
+      </div>
+    </div>
+
+    <!-- ===== TEXTE DU PROJET ===== -->
+    <article class="project-page">
+      <!-- Sommaire : main.js le remplit à partir des <h2> -->
+      <nav class="toc" aria-label="Sur cette page">
+        <p class="toc-title">Sur cette page</p>
+        <ol id="toc"></ol>
+      </nav>
+
+      <!-- Les <h2> alimentent le sommaire : garde-les courts et distincts -->
+      <section>
+        <h2>Objectif</h2>
+        <p>Ce projet a vu le jour dans le contexte d'un G.Studio (projet proposé par notre école ayant pour but de remplacer notre stage de fin d'année). 
+          La seule demande de l'école dans ce projet est de concevoir un jeu dans un délai minimum de 2 mois jusqu'à 4 mois. 
+        </p>
+        <p>J'ai donc décidé de rejoindre le G.Studio de Tea House car le style de jeu m'intéressait à développer et je voulais en profiter afin d'apprendre plus sérieusement Unity et le C# ainsi que d'avoir une production esthétique pour mon portfolio.</p>
+      </section>
+      <section>
+        <h2>Fonctionnement</h2>
+        <h3>Principe du jeu</h3>
+        <p>
+          Le jeu est conçu autour de la conception de mixture d'ingrédients dans le but de faire du thé. 
+          Pour cela, on se sert de 4 tables interactives principales dont 2 s'utilisant via du Drag-&-Drop et 2 avec du Point-&-Click. 
+          Les thés préparés sont utilisés afin de compléter des commandes générées aléatoirement via une base de données SQL que ce soit pour les demandes ou pour les profils client.
+        </p>
+        
+        <h3>Caméra modulaire</h3>
+        <p>
+          Comme dit précédemment, le jeu compte beaucoup sur l'interaction Point-&-Click et Drag-&-Drop. 
+          Pour la partie Point-&-Click, nous avons utilisé l'UI déjà présente dans Unity mais le Drag-&-Drop n'étant pas présent par défaut, nous avons dû le développer. 
+          Voici donc la première mission qui m'a été confiée : concevoir une architecture caméra permettant l'ajout de fonctionnalités tout en faisant la séparation entre vue globale de la pièce et vue "mini-jeu" qui se concentre sur une table. 
+          Face à cette contrainte, je me suis lancé dans une approche de fonctionnalité modulaire sur la caméra qui est divisée en 2 états : orbital (vue de la pièce) et zoomé (vue sur une table).
+          En module de caméra on retrouve le Drag-&-Drop qui ne tourne qu'en état zoomé ou encore le "Depth View" qui sert à désafficher les éléments dans le champ de vision du joueur quand il est en état orbital. 
+          Son utilisation principale est de désafficher les murs avant ainsi que les éléments qui y sont accrochés.
+        </p>
+
+        <h3>Table d'empaquetage</h3>
+        <p>
+          L'organisation de l'équipe s'est faite de telle sorte que chacun de nous s'est occupé d'une table principale au minimum.
+          Pour ma part, je me suis retrouvé sur la table d'empaquetage qui récupère la mixture préparée par le joueur à la table précédente et sur laquelle il va choisir un paquet, mettre la mixture dedans et l'étiqueter avec le bon numéro de commande.
+          J'ai donc utilisé une machine à état qui permet de savoir ce que fait le joueur (choisir le paquet, remplir le paquet, étiqueter).        
+        </p>
+
+        <h3>Génération de texture</h3>
+        <p>
+          Afin de pouvoir imprimer des étiquettes ayant une utilité pour le personnage en jeu, j'ai dû faire une étiquette qui s'adapte à chaque commande visuellement.
+          Pour pouvoir faire cela, je suis passé par une texture dynamique qui se fabrique à chaque fois que le joueur sélectionne une commande sur l'imprimante et clique sur Print. 
+          Pour générer la texture, je suis passé par une seconde caméra qui n'est pas celle du joueur et celle-ci est fixée sur des éléments d'UI. 
+          L'UI sur laquelle est fixée la caméra représente le format de texture voulu auquel je n'ai qu'à changer les contenus et non les emplacements afin d'avoir une UI représentant l'étiquette.
+          Suite à cela, je n'ai plus qu'à faire une capture de ce que voit la caméra et à l'appliquer à mon mesh d'étiquette.
+          Ainsi donc je me retrouve avec une étiquette texturée avec sa texture propre à la commande sans pour autant devoir anticiper tous les cas possibles, mais générée au runtime.
+        </p>
+      </section>
+      <section>
+        <h2>Difficultés rencontrées</h2>
+        <p>
+          La principale difficulté que nous avons eue est la mise en commun entre artistes et techniciens.
+          En effet, n'étant pas très familiers avec Unity, nous n'étions pas au courant des différences entre les types de projet disponibles.
+          Nous nous sommes donc retrouvés par manque de renseignement et de communication à avoir des problèmes de texture lors de l'import de ce qui nous était fourni par les artistes qui ne donnaient pas le rendu escompté sans ajustement de leur part.
+        </p>
+
+        <p>
+          La seconde grosse difficulté rencontrée est la version d'Unity sur laquelle nous avons travaillé en début de projet.
+          Au début de celui-ci, nous avons dû choisir une version sur laquelle travailler.
+          Ayant décidé de travailler sur le campus de l'école pour plus de sérieux et de simplicité, nous avons regardé les versions déjà installées.
+          N'en ayant aucune, nous avons demandé l'installation de l'une d'elles, qui nous a été accordée. 
+          Par la suite, nous avons dû changer de salle et donc n'avions plus cette version d'installée. 
+          Nous avons donc refait la démarche pour en demander l'installation qui cette fois-ci nous a été refusée.
+          Nous nous sommes donc retrouvés avec le choix entre recommencer de zéro le projet ou supprimer le présentiel du projet pour travailler chez nous avec la bonne version.
+          Nous avons donc pris la décision de faire notre troisième option.
+          L'un de nous utilisait déjà son PC portable ce qui ne lui a apporté aucun problème tandis que pour ma part je me suis servi de mon outil portable que je me suis fabriqué.
+          Il s'agit d'un disque dur portable sur lequel je mets tous les outils dont j'ai besoin pour coder sur n'importe quel poste.
+          Je n'ai donc eu qu'à installer la version d'Unity dont on avait besoin sur celui-ci et juste en le branchant chaque jour j'ai pu travailler sans problème au campus.
+        </p>
+      </section>
+      <section>
+        <h2>Résultat</h2>
+        <p>
+          En termes de résultat, nous avons eu un rendu que l'on considère comme très satisfaisant.
+          Le jeu est jouable et esthétique malgré certains bugs restants.
+          La boucle de jeu est fonctionnelle ce qui, d'un point de vue limitation, laisse une forte rejouabilité à Tea House.
+        </p>
+
+        <p>
+          Si j'avais eu plus de temps, j'aurais aimé pouvoir corriger tous les bugs restants et optimiser certains endroits tels que le temps de sauvegarde et de chargement.
+          De plus, rendre l'expérience plus fluide et ajouter un tutoriel auraient été des points vraiment appréciables je trouve.
+        </p>
+
+        <p>
+          Malgré les problèmes que j'ai eu l'occasion de rencontrer, j'ai pu gagner en agilité en cas de problème et ai pu obtenir les connaissances que je voulais à savoir le C# et Unity.
+          J'ai aussi pu voir plus sérieusement comment fonctionne le travail en lien avec les artistes, voir leur façon de faire et ce qui peut être demandé de leur côté par nous comme inversement.
+        </p>
+      </section>
+    </article>
+
+    <!-- Projet précédent / suivant : supprime un lien aux extrémités de la liste -->
+    <nav class="pager" aria-label="Autres projets">
+      <a rel="next" href="../Chessy/">Chessy</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year">2026</span> PONTHIEU Hugo</p>
+    <p class="credit">Design et contenu : PONTHIEU Hugo. Code écrit par <a href="https://www.anthropic.com/claude" rel="noopener">Claude</a> (modèles Claude Sonnet 5.5 et Claude Opus 5.5, Anthropic).</p>
+  </footer>
+</body>
+</html>

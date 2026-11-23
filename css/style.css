@@ -15,14 +15,21 @@
   --link:          #58a6ff;  /* liens dans le texte */
   --focus:         #58a6ff;  /* anneau de focus clavier */
 
+  /* Projets phares (bandes pleine largeur) */
+  --band-a:        var(--surface); /* fond des bandes 1, 3, 5... */
+  --band-b:        color-mix(in srgb, var(--bg) 70%, #000); /* fond des bandes 2, 4, 6... */
+  --feature-title: var(--accent);  /* grand titre en capitales */
+  --flare:         #22c3d6;        /* halo lumineux derrière l'image */
+
   /* Couleurs des sommets du triangle (format #rrggbb, lues par main.js) */
   --vertex-a: #ff5d62;
   --vertex-b: #3dd68c;
   --vertex-c: #5b9bff;
 
   /* Typographie : polices système (aucune requête vers un serveur tiers).
-     Pour une police perso, ajoute un @font-face (fichier dans fonts/)
-     et mets son nom en premier ici. */
+     Pour une police perso (par exemple Rajdhani, sous licence libre OFL),
+     mets le fichier .woff2 dans fonts/, déclare-le avec @font-face
+     et mets son nom en premier dans --font-display. */
   --font-display: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-body:    system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
@@ -30,6 +37,35 @@
   --gutter: clamp(1.25rem, 5vw, 3rem);
   --max: 72rem;
   --radius: 10px;
+
+  /* Animations au défilement (lues par main.js)
+     --fx-rise      : projets phares, distance de montée de l'image et du texte
+     --fx-scrub     : retard de l'image et des cartes sur le défilement, en secondes (0 = aucun)
+     --fx-card-rise : autres projets, montée de la carte du centre
+     --fx-slide     : autres projets, glissement des cartes latérales (multiplié par
+                      leur rang : la 2e carte en partant du centre vient 2x plus loin) */
+  --fx-rise: 300px;
+  --fx-scrub: 1;
+  --fx-card-rise: 120px;
+  --fx-slide: 140px;
+}
+
+/* Déclarer le type des distances permet au navigateur de la convertir en px :
+   tu peux donc écrire 18rem ou 30vh, main.js recevra toujours des pixels. */
+@property --fx-rise {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 300px;
+}
+@property --fx-card-rise {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 120px;
+}
+@property --fx-slide {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 140px;
 }
 
 /* =====================================================================
@@ -51,7 +87,11 @@ body {
   line-height: 1.65;
 }
 
-h1, h2, h3 {
+/* Les bandes des projets phares prennent toute la largeur de l'écran :
+   on coupe ce qui dépasse horizontalement pour éviter un défilement latéral. */
+main { overflow-x: clip; }
+
+h1, h2, h3, h4 {
   margin: 0;
   font-family: var(--font-display);
   line-height: 1.15;
@@ -68,6 +108,19 @@ img { max-width: 100%; height: auto; }
   outline: 3px solid var(--focus);
   outline-offset: 3px;
   border-radius: 3px;
+}
+
+/* Texte lu par les lecteurs d'écran mais invisible à l'écran */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Lien d'évitement : invisible tant qu'il n'a pas le focus */
@@ -130,6 +183,7 @@ img { max-width: 100%; height: auto; }
    ===================================================================== */
 main > section,
 .breadcrumb,
+.project-hero,
 .project-page,
 .pager {
   width: min(100% - 2 * var(--gutter), var(--max));
@@ -208,51 +262,249 @@ main > section > h2 {
 }
 
 /* =====================================================================
-   BLOCS "FEATURE" : image + texte, alternance gauche/droite
+   LANGAGES : bandeau de logos (couleur = --accent)
    ===================================================================== */
-.feature {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
-  gap: clamp(1.5rem, 5vw, 4rem);
-  margin-bottom: clamp(3rem, 7vw, 5rem);
+#langages > h2 {
+  margin-bottom: 1.25rem;
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--text-muted);
 }
-.feature:last-child { margin-bottom: 0; }
 
-/* :nth-of-type compte uniquement les <article> (le <h2> est ignoré) */
-.feature:nth-of-type(even) .feature-media { order: 2; }
+/* Tuiles : logo à gauche, nom et précision à droite.
+   4 colonnes sur grand écran, moins quand la place manque (auto-fit). */
+.languages {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 64rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr));
+  gap: 1rem;
+}
 
-.feature-media img {
+.language {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "icon name"
+    "icon note";
+  align-items: center;
+  column-gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.15s ease;
+}
+.language:hover { border-color: var(--accent); }
+
+/* Les logos viennent du sprite images/langages.svg (<use href="...#id">).
+   Leur couleur suit "color" : les symboles utilisent currentColor. */
+.lang-icon {
+  grid-area: icon;
+  display: block;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--accent);
+}
+
+.language-name {
+  grid-area: name;
+  align-self: end;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.language-note {
+  grid-area: note;
+  align-self: start;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* =====================================================================
+   PROJETS PHARES : bandes pleine largeur
+   - chaque projet est une bande pleine largeur, de couleur alternée ;
+   - deux encoches biseautées montent dans la bande précédente ;
+   - l'image est une capture d'écran encadrée, alignée sur le texte ;
+   - un halo lumineux éclaire l'arrière de la capture ;
+   - main.js fait monter l'image, le halo et le texte pendant le défilement.
+   ===================================================================== */
+.features {
+  /* Sortie du conteneur centré pour occuper toute la largeur de l'écran */
+  margin-inline: calc(50% - 50vw);
+  margin-top: 3.5rem;
+}
+
+.feature {
+  --tab-height: 1.25rem;                     /* hauteur des encoches */
+  --tab-width: clamp(4.5rem, 14vw, 12.5rem); /* largeur des encoches */
+
+  position: relative;
+  background: var(--band-a);
+}
+.feature:nth-of-type(even) { background: var(--band-b); }
+
+/* Encoches : prennent la couleur de leur bande et montent dans la précédente */
+.feature::before,
+.feature::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  z-index: 1;
+  width: var(--tab-width);
+  height: var(--tab-height);
+  background: inherit;
+  clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+}
+.feature::before { left: 0; }
+.feature::after  { right: 0; transform: scaleX(-1); }
+
+.feature-inner {
+  width: min(100% - 2 * var(--gutter), var(--max));
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "body media";
+  align-items: center; /* texte et image centrés sur le même axe */
+  column-gap: clamp(2rem, 5vw, 4rem);
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+  /* Coupe verticalement : l'image et le texte "sortent" du bas de la bande
+     pendant l'animation, sans jamais déborder sur la bande suivante. */
+  overflow-x: visible;
+  overflow-y: clip;
+}
+.feature:nth-of-type(even) .feature-inner { grid-template-areas: "media body"; }
+
+/* --- Texte --- */
+.feature-body { grid-area: body; }
+/* Bandes impaires : image à droite, texte aligné vers l'image */
+.feature:nth-of-type(odd) .feature-body { text-align: end; }
+.feature:nth-of-type(odd) .feature-text { margin-left: auto; }
+
+.feature-kicker {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.feature-title {
+  margin: 0.2rem 0 1rem;
+  color: var(--feature-title);
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  hyphens: auto;
+}
+
+.feature-text {
+  max-width: 40ch;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 1.15rem;
+}
+
+.feature-more { margin: 2rem 0 0; }
+.feature-more a {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+/* --- Capture d'écran et halo --- */
+.feature-media {
+  grid-area: media;
+  position: relative;
+}
+
+/* Halo : lueur douce qui déborde derrière la capture */
+.feature-flare {
+  position: absolute;
+  inset: -25% -15%;
+  background: radial-gradient(closest-side,
+              color-mix(in srgb, var(--flare) 40%, transparent),
+              transparent);
+  pointer-events: none;
+}
+
+.feature-visual { position: relative; } /* passe devant le halo */
+
+/* Toutes les captures ont le même format (16:9), quelle que soit leur taille
+   d'origine : object-fit recadre au centre sans déformer. */
+.feature-visual img {
   display: block;
   width: 100%;
-  border-radius: var(--radius);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--bg);
   border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 50px rgb(0 0 0 / 0.5);
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-.feature-body h3 {
-  font-size: clamp(1.5rem, 2.6vw, 2rem);
-  margin-bottom: 0.75rem;
+/* Variante : capture affichée en entier, sans recadrage.
+   Pour une image qui n'est pas en 16:9 (ex. une console) : on garde le cadre 16:9,
+   l'image est centrée dedans et les bandes vides prennent la couleur --visual-bg
+   (mets celle du fond de ta capture pour qu'elles se fondent dedans).
+   Usage : <div class="feature-visual feature-visual--contain" style="--visual-bg: #0c0c0c"> */
+.feature-visual--contain img {
+  object-fit: contain;
+  background: var(--visual-bg, var(--bg));
 }
-.feature-body p { color: var(--text-muted); max-width: 52ch; }
 
-.feature-link {
-  font-weight: 700;
-  color: var(--accent);
+/* --- Survol : toute la bande est cliquable (classe ajoutée par main.js) --- */
+.feature.is-clickable { cursor: pointer; }
+.feature.is-clickable:hover .feature-visual img {
+  transform: translateY(-8px);
+  border-color: var(--accent);
+}
+.feature.is-clickable:hover .feature-more a,
+.feature-more a:hover,
+.feature-more a:focus-visible { color: var(--accent); }
+
+/* Les éléments animés par main.js : le navigateur prépare leur calque à l'avance */
+.feature-visual,
+.feature-flare,
+.feature-body { will-change: transform, opacity; }
+
+.projects-subtitle {
+  font-size: 1.4rem;
+  margin: clamp(3.5rem, 7vw, 5rem) 0 1.25rem;
 }
 
 /* =====================================================================
    CARTES DE PROJETS (liste de liens, style documentation)
    ===================================================================== */
 .cards {
+  --cols: 4;     /* nombre de colonnes sur grand écran : mets 5 pour 5 colonnes */
+  --gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* centre aussi la dernière ligne si elle est incomplète */
+  gap: var(--gap);
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
-  gap: 1rem;
 }
 
+/* Les cartes sont animées ligne par ligne par main.js (effet d'assemblage) */
 .card {
+  will-change: transform, opacity;
+  flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
   position: relative; /* nécessaire pour étendre le lien à toute la carte */
   padding: 1.25rem 1.4rem 1.1rem;
   background: var(--surface);
@@ -264,12 +516,6 @@ main > section > h2 {
 .card:focus-within {
   background: var(--surface-hover);
   border-color: var(--accent);
-}
-
-.card-category {
-  margin: 0 0 0.35rem;
-  color: var(--text-muted);
-  font-size: 0.875rem;
 }
 
 .card-title { font-size: 1.25rem; margin-bottom: 0.5rem; }
@@ -372,6 +618,223 @@ main > section > h2 {
 .pager a[rel="next"] { margin-left: auto; text-align: right; }
 
 /* =====================================================================
+   PAGE PROJET : EN-TÊTE (galerie + panneau d'infos)
+   ===================================================================== */
+.project-hero { padding-top: 1.5rem; }
+.project-hero h1 {
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  margin-bottom: 1.25rem;
+}
+
+.project-top {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* --- Galerie --- */
+.gallery { min-width: 0; } /* laisse la bande de miniatures défiler au lieu d'élargir la page */
+
+.gallery-stage { position: relative; }
+
+.gallery-viewer {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000; /* bandes noires si un média n'est pas en 16:9 */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.gallery-viewer > img,
+.gallery-viewer > iframe,
+.gallery-play,
+.gallery-play img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.gallery-viewer > img,
+.gallery-play img { object-fit: contain; }
+
+/* Petit fondu à chaque changement de média */
+.gallery-viewer > * { animation: gallery-in 0.25s ease; }
+@keyframes gallery-in { from { opacity: 0; } }
+
+/* Aperçu de la vidéo : image + bouton lecture (YouTube ne se charge qu'au clic) */
+.gallery-play {
+  position: relative;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+.gallery-play::before { /* rond */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5rem;
+  height: 5rem;
+  translate: -50% -50%;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.55);
+  transition: background-color 0.15s ease, scale 0.15s ease;
+}
+.gallery-play::after { /* triangle */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -35% -50%;
+  border-left: 1.6rem solid #fff;
+  border-top: 1rem solid transparent;
+  border-bottom: 1rem solid transparent;
+}
+.gallery-play:hover::before,
+.gallery-play:focus-visible::before { background: var(--accent); scale: 1.08; }
+.gallery-play:focus-visible { outline-offset: -4px; }
+
+/* Flèches précédent / suivant, visibles au survol ou au clavier */
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  width: 2.75rem;
+  height: 4rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: rgb(0 0 0 / 0.5);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+.gallery-prev { left: 0.6rem; }
+.gallery-next { right: 0.6rem; }
+.gallery-stage:hover .gallery-nav,
+.gallery-nav:focus-visible { opacity: 1; }
+.gallery-nav:hover { background: rgb(0 0 0 / 0.75); }
+
+/* Bande de miniatures : une ligne qui défile horizontalement */
+.gallery-thumbs {
+  display: flex;
+  gap: 0.6rem;
+  margin: 0.7rem 0 0;
+  padding: 0 0 0.4rem;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.gallery-thumbs li { flex: 0 0 auto; scroll-snap-align: start; }
+
+.gallery-thumb {
+  position: relative;
+  display: block;
+  width: 7.5rem;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background: #000;
+  opacity: 0.6;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
+}
+.gallery-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery-thumb:hover,
+.gallery-thumb:focus-visible { opacity: 1; }
+.gallery-thumb[aria-current] {
+  opacity: 1;
+  border-color: var(--accent);
+}
+.gallery-thumb:focus-visible { outline-offset: 2px; }
+
+/* Miniature de vidéo : petit triangle par-dessus */
+.gallery-thumb--video::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -35% -50%;
+  border-left: 0.9rem solid #fff;
+  border-top: 0.55rem solid transparent;
+  border-bottom: 0.55rem solid transparent;
+  filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.8));
+}
+
+/* Un seul média : ni flèches ni bande (classe ajoutée par main.js) */
+.gallery.is-single .gallery-nav,
+.gallery.is-single .gallery-thumbs { display: none; }
+
+/* --- Panneau d'infos --- */
+.project-info {
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.project-info-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-bottom: 1px solid var(--border);
+}
+
+.project-info-body { padding: 1.1rem 1.25rem 1.25rem; }
+
+.project-info-lead {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.project-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.45rem 1rem;
+  margin: 0 0 1.1rem;
+  font-size: 0.92rem;
+}
+.project-facts dt { color: var(--text-muted); }
+.project-facts dd { margin: 0; }
+
+.project-info .tags { margin-bottom: 1.1rem; }
+
+.project-info-cta {
+  display: block;
+  text-align: center;
+}
+.project-info-note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* Le texte du projet, sous l'en-tête : même largeur que la galerie + le panneau,
+   alignés sur les mêmes bords. Les paragraphes restent limités à ~75 caractères
+   par ligne, au-delà la lecture devient pénible (l'œil perd la ligne suivante). */
+.project-hero + .project-page {
+  max-width: var(--max);
+  padding-top: 2.5rem;
+}
+.project-hero + .project-page p,
+.project-hero + .project-page li { max-width: 75ch; }
+
+/* =====================================================================
    PIED DE PAGE
    ===================================================================== */
 .site-footer {
@@ -383,6 +846,7 @@ main > section > h2 {
   font-size: 0.9rem;
 }
 .site-footer p { margin: 0; }
+.site-footer p + p { margin-top: 0.4rem; }
 
 /* =====================================================================
    PAGE 404
@@ -397,11 +861,29 @@ main > section > h2 {
    MOBILE
    ===================================================================== */
 @media (max-width: 760px) {
+  :root {                     /* mouvements plus courts sur petit écran */
+    --fx-rise: 160px;
+    --fx-slide: 80px;
+  }
+
   .hero { grid-template-columns: 1fr; }
 
-  .feature { grid-template-columns: 1fr; }
-  /* l'image reste toujours au-dessus du texte */
-  .feature:nth-of-type(even) .feature-media { order: 0; }
+  /* Projets phares : texte au-dessus, capture en dessous */
+  .feature-inner,
+  .feature:nth-of-type(even) .feature-inner {
+    grid-template-columns: 1fr;
+    grid-template-areas: "body" "media";
+  }
+  .feature-inner { row-gap: 2rem; padding-block: 3rem; }
+  .feature:nth-of-type(odd) .feature-body { text-align: start; }
+  .feature:nth-of-type(odd) .feature-text { margin-left: 0; }
+
+  /* Page projet : galerie au-dessus, puis panneau d'infos (sans son image d'en-tête,
+     qui ferait doublon avec la galerie) */
+  .project-top { grid-template-columns: minmax(0, 1fr); }
+  .project-info-cover { display: none; }
+  .gallery-thumb { width: 6rem; }
+  .gallery-nav { opacity: 1; width: 2.25rem; height: 3.25rem; } /* pas de survol au doigt */
 
   .pager { flex-direction: column; }
   .pager a { max-width: none; }
@@ -409,9 +891,72 @@ main > section > h2 {
 }
 
 /* =====================================================================
+   GRILLE DES AUTRES PROJETS : moins de colonnes sur petit écran
+   ===================================================================== */
+@media (max-width: 1100px) { .cards { --cols: 3; } }
+@media (max-width: 760px)  { .cards { --cols: 2; } }
+@media (max-width: 520px)  { .cards { --cols: 1; } }
+
+/* =====================================================================
    PRÉFÉRENCES UTILISATEUR
    ===================================================================== */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition: none !important; }
+  .feature-visual,
+  .feature-flare,
+  .feature-body,
+  .card { will-change: auto; }
+  .gallery-viewer > * { animation: none; }
 }
+
+/* =====================================================================
+   PAGE PROJET EN COURS D'ÉCRITURE (WIP)
+   - <body data-wip> sur une page projet : tout le contenu de <main>
+     est masqué (sauf le fil d'Ariane) et le bloc .wip-notice s'affiche.
+   - Sans data-wip, .wip-notice reste invisible : on peut le laisser
+     dans toutes les pages sans s'en soucier.
+   - En local avec ?preview dans l'adresse, main.js remplace data-wip par
+     data-wip-preview : le contenu reste visible, avec un bandeau de rappel.
+   - data-wip sur un .feature ou un .card de l'accueil : badge "WIP".
+   ===================================================================== */
+.wip-notice { display: none; }
+
+body[data-wip] main > :not(.breadcrumb, .wip-notice) { display: none; }
+
+body[data-wip] .wip-notice {
+  display: block;
+  max-width: 40rem;
+  margin: 12vh auto 20vh;
+  text-align: center;
+}
+.wip-notice h1 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1rem; }
+.wip-notice p { color: var(--text-muted); }
+.wip-notice .button { margin-top: 1.5rem; }
+
+/* Bandeau visible uniquement en aperçu local (?preview) */
+body[data-wip-preview]::before {
+  content: "Aperçu local : page en WIP, son contenu est masqué en ligne";
+  display: block;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: var(--accent-text);
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Badge sur l'accueil */
+.feature[data-wip] .feature-title::after,
+.card[data-wip] .card-title::after {
+  content: "WIP";
+  display: inline-block;
+  margin-left: 0.6em;
+  padding: 0.15em 0.5em;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  color: var(--accent);
+  font-size: 0.45em;
+  letter-spacing: 0.08em;
+  vertical-align: middle;
+}
+.card[data-wip] .card-title::after { font-size: 0.7em; }

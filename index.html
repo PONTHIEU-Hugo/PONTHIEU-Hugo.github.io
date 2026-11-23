@@ -3,15 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- TODO : remplace "Ton Prénom" et la description (max ~160 caractères) -->
-  <title>Ton Prénom – Développeur C++</title>
-  <meta name="description" content="TODO : une phrase qui résume ton profil.">
+  <!-- Nom de la fenêtre dans le navigateur -->
+  <title>PONTHIEU Hugo – Développeur C++</title>
+  <!-- Description de la page sur Google en dessous du titre -->
+  <meta name="description" content="Portfolio d'un jeune développeur principalement C++ qui n'a pas peur d'apprendre ou de s'investir.">
+
+  <!-- Le site est sombre : barres de défilement et champs natifs en sombre aussi -->
+  <meta name="color-scheme" content="dark">
+  <!-- Couleur de la barre du navigateur sur mobile (mets la valeur de --bg) -->
+  <meta name="theme-color" content="#14161a">
 
   <!-- Aperçu lors d'un partage de lien -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="TODO">
-  <meta property="og:description" content="TODO">
-  <meta property="og:url" content="https://TON-PSEUDO.github.io/">
+  <meta property="og:title" content="Portfolio Développeur C++ - PONTHIEU Hugo">
+  <meta property="og:description" content="Portfolio d'un jeune développeur principalement C++ qui n'a pas peur d'apprendre ou de s'investir.">
+  <meta property="og:url" content="https://ponthieu-hugo.github.io/">
   <!-- TODO plus tard : image 1200x630 dans images/, puis décommente -->
   <!-- <meta property="og:image" content="https://TON-PSEUDO.github.io/images/apercu.png"> -->
 
@@ -23,10 +29,10 @@
   <a class="skip-link" href="#contenu">Aller au contenu</a>
 
   <header class="site-header">
-    <a class="brand" href="#top">TODO nom</a>
+    <a class="brand" href="#top">PONTHIEU Hugo</a>
     <!-- Chaque href doit correspondre à l'id d'une <section> plus bas -->
     <nav aria-label="Navigation principale">
-      <a href="#domaines">Domaines</a>
+      <a href="#langages">Langages</a>
       <a href="#projets">Projets</a>
       <a href="#a-propos">À propos</a>
       <a href="#contact">Contact</a>
@@ -38,11 +44,11 @@
     <!-- ===== HERO ===== -->
     <section id="top" class="hero" aria-labelledby="titre-hero">
       <div class="hero-text">
-        <h1 id="titre-hero">TODO titre d'accroche</h1>
-        <p class="lead">TODO sous-titre</p>
+        <h1 id="titre-hero">PONTHIEU Hugo</h1>
+        <p class="lead">Développeur C++</p>
         <p class="actions">
-          <a class="button" href="#projets">TODO bouton principal</a>
-          <a class="button button-secondary" href="https://github.com/TON-PSEUDO" rel="noopener">GitHub</a>
+          <a class="button" href="#projets">Projets réalisés</a>
+          <a class="button button-secondary" href="https://github.com/PONTHIEU-Hugo" rel="noopener">GitHub</a>
         </p>
       </div>
       <figure class="hero-figure">
@@ -52,58 +58,162 @@
       </figure>
     </section>
 
-    <!-- ===== DOMAINES (blocs "feature") ===== -->
-    <section id="domaines" aria-labelledby="titre-domaines">
-      <h2 id="titre-domaines">TODO titre de section</h2>
-
-      <!-- MODÈLE : copie ce bloc <article> autant de fois que nécessaire -->
-      <article class="feature">
-        <div class="feature-media">
-          <!-- TODO : remplace src, et décris l'image dans alt -->
-          <img src="images/placeholder.svg" width="1200" height="675" loading="lazy" alt="TODO">
-        </div>
-        <div class="feature-body">
-          <h3>TODO titre</h3>
-          <p>TODO texte court</p>
-          <p><a class="feature-link" href="projets/test/index.html">TODO texte du lien</a></p>
-        </div>
-      </article>
-      <!-- /MODÈLE -->
-
+    <!-- ===== LANGAGES (juste sous le hero) ===== -->
+    <section id="langages" aria-labelledby="titre-langages">
+      <h2 id="titre-langages">Langages</h2>
+      <!-- Chaque tuile : logo + nom + une courte précision.
+           Les logos sont écrits directement ici (aucun fichier à charger) ;
+           leur couleur vient de --accent dans le CSS (fill="currentColor").
+           Le nom étant affiché en texte, le logo est décoratif (aria-hidden).
+           Pour ajouter un langage : copie un <li> et remplace le <path>
+           (SVG monochrome, par exemple sur simpleicons.org, en gardant son viewBox). -->
+      <ul class="languages">
+        <li class="language">
+          <svg class="lang-icon" aria-hidden="true" focusable="false"><use href="images/langages.svg#cpp"></use></svg>
+          <span class="language-name">C++</span>
+          <span class="language-note">langage principale utilisé dans mes projets</span>
+        </li>
+        <li class="language">
+          <svg class="lang-icon" aria-hidden="true" focusable="false"><use href="images/langages.svg#csharp"></use></svg>
+          <span class="language-name">C#</span>
+          <span class="language-note">utilisé dans mes projet sur Unity</span>
+        </li>
+        <li class="language">
+          <svg class="lang-icon" aria-hidden="true" focusable="false"><use href="images/langages.svg#python"></use></svg>
+          <span class="language-name">Python</span>
+          <span class="language-note"></span>
+          <!-- TODO: Find a utility for Python -->
+        </li>
+        <li class="language">
+          <svg class="lang-icon" aria-hidden="true" focusable="false"><use href="images/langages.svg#sql"></use></svg>
+          <span class="language-name">SQL</span>
+          <span class="language-note">utilisé lorsque la gestion d'une base de données est nécessaire</span>
+        </li>
+      </ul>
     </section>
 
-    <!-- ===== PROJETS (cartes) ===== -->
+    <!-- ===== PROJETS ===== -->
     <section id="projets" aria-labelledby="titre-projets">
       <h2 id="titre-projets">Projets</h2>
+
+      <!-- Projets phares :
+           chaque projet est une bande pleine largeur, le texte d'un côté,
+           l'image de l'autre (alternance automatique).
+           L'animation au défilement est gérée par js/main.js (classes .feature-*).
+           Toute la bande est cliquable (main.js), le vrai lien reste .feature-more a.
+           Pour en ajouter un : copie un <article class="feature">. -->
+      <div class="features">
+
+        <!-- Tea House -->
+        <article class="feature">
+          <div class="feature-inner">
+            <div class="feature-body">
+              <h3 class="feature-title">Tea House</h3>
+              <p class="feature-text">Jeu produit en 2 mois sur Unity en équipe dans le but de valider notre deuxième année</p>
+              <p class="feature-more"><a href="Projects/TeaHouse/"><span aria-hidden="true">// </span>Voir le projet<span class="visually-hidden"> : Tea House</span></a></p>
+            </div>
+            <div class="feature-media">
+              <span class="feature-flare" aria-hidden="true"></span>
+              <div class="feature-visual">
+                <img src="images/main_project/TeaHouse.webp" width="1200" height="675" loading="lazy" decoding="async"
+                     alt="TODO capture de Tea House">
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Chessy (data-wip : badge "WIP" à côté du titre, à retirer une fois la page finie) -->
+        <article class="feature" data-wip>
+          <div class="feature-inner">
+            <div class="feature-body">
+              <h3 class="feature-title">Chessy </h3>
+              <p class="feature-text">DSL conçu pour l'optimisation de recherche en profondeur aux échecs </p>
+              <p class="feature-more"><a href="Projects/Chessy/"><span aria-hidden="true">// </span>Voir le projet<span class="visually-hidden"> : Chessy</span></a></p>
+            </div>
+            <div class="feature-media">
+              <span class="feature-flare" aria-hidden="true"></span>
+              <div class="feature-visual">
+                <img src="images/main_project/Chessy.webp" width="1200" height="675" loading="lazy" decoding="async"
+                     alt="TODO capture de Chessy">
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- HLT Engine -->
+        <article class="feature">
+          <div class="feature-inner">
+            <div class="feature-body">
+              <h3 class="feature-title">HLT Engine</h3>
+              <p class="feature-text">Moteur custom dans le but d'apprendre le rendu DirectX12 et le fonctionnement d'ECS</p>
+              <p class="feature-more"><a href="Projects/HLT_Engine/"><span aria-hidden="true">// </span>Voir le projet<span class="visually-hidden"> : HLT Engine</span></a></p>
+            </div>
+            <div class="feature-media">
+              <span class="feature-flare" aria-hidden="true"></span>
+              <div class="feature-visual">
+                <img src="images/main_project/HLT_Engine.webp" width="1200" height="675" loading="lazy" decoding="async"
+                     alt="TODO capture du rendu HLT Engine">
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Runner -->
+        <article class="feature">
+          <div class="feature-inner">
+            <div class="feature-body">
+              <h3 class="feature-title">Runner</h3>
+              <p class="feature-text">Runner basique avec génération de chemin aléatoire</p>
+              <p class="feature-more"><a href="Projects/Runner/"><span aria-hidden="true">// </span>Voir le projet<span class="visually-hidden"> : Runner</span></a></p>
+            </div>
+            <div class="feature-media">
+              <span class="feature-flare" aria-hidden="true"></span>
+              <div class="feature-visual">
+                <img src="images/main_project/Runner.webp" width="1200" height="675" loading="lazy" decoding="async"
+                     alt="TODO exemple de TODO">
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Autres projets : grille de boxes, la dernière ligne incomplète est centrée.
+           Le nombre de colonnes se règle avec --cols dans le CSS (.cards).
+           Pour en ajouter un : copie un <li class="card">. -->
+      <h3 class="projects-subtitle">Autres projets</h3>
       <ul class="cards">
-
-        <!-- MODÈLE : copie ce bloc <li> autant de fois que nécessaire -->
+        <!-- TODO: Find project to add in this section -->
         <li class="card">
-          <p class="card-category">TODO catégorie</p>
-          <h3 class="card-title"><a href="projets/TODO-slug/">TODO nom du projet</a></h3>
-          <p class="card-text">TODO description en une ou deux phrases</p>
+          <h4 class="card-title"><a href="Projects/A_Game_About_Travelling/">A Game About Travelling</a></h4>
+          <p class="card-text">Jeu d'aventure Point-&-Click développé sur Seccia.Dev.</p>
         </li>
-        <!-- /MODÈLE -->
-
+        <li class="card">
+          <h4 class="card-title"><a href="Projects/Candy Shooter/">Candy Shooter</a></h4>
+          <p class="card-text">Arena Shooter développé en 3 semaines en équipe de 5.</p>
+        </li>
       </ul>
     </section>
 
     <!-- ===== À PROPOS ===== -->
     <section id="a-propos" aria-labelledby="titre-apropos">
       <h2 id="titre-apropos">À propos</h2>
+      <!-- TODO: Ajouter une photo ou un logo et faire une description -->
       <p>TODO</p>
     </section>
 
     <!-- ===== CONTACT ===== -->
     <section id="contact" aria-labelledby="titre-contact">
       <h2 id="titre-contact">Contact</h2>
-      <p>TODO : <a href="mailto:ton.email@exemple.fr">ton.email@exemple.fr</a></p>
+      <p>Mail : <a href="mailto:hugo.ponthieu2503@gmail.com">hugo.ponthieu2503@gmail.com</a></p>
+      <p>LinkedIn : <a href="https://www.linkedin.com/in/hugo-ponthieu-1b286b339" rel="noopener">Hugo PONTHIEU | LinkedIn</a></p>
     </section>
   </main>
 
   <footer class="site-footer">
     <!-- #year est rempli par main.js -->
-    <p>© <span id="year">2026</span> TODO nom</p>
+    <p>© <span id="year">2026</span> PONTHIEU Hugo</p>
+    <p class="credit">Design et contenu : PONTHIEU Hugo. Code écrit par <a href="https://www.anthropic.com/claude" rel="noopener">Claude</a> (modèles Claude Sonnet 5.5 et Claude Opus 5.5, Anthropic).</p>
   </footer>
 </body>
 </html>

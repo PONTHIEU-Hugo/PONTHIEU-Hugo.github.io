@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!--
+    MODÈLE DE PAGE PROJET
+    1. Copie ce dossier : projets/_modele/  ->  projets/mon-projet/   (sans le "_")
+       (GitHub Pages ignore les dossiers qui commencent par "_" :
+        le modèle lui-même n'est donc pas publié)
+    2. Remplace tous les TODO.
+    3. Les chemins ../../ remontent de deux dossiers pour retrouver css/, js/, images/ :
+       garde-les tant que la page reste dans projets/<nom>/index.html
+    4. Range les médias du projet dans images/projets/<nom>/
+  -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Runner – PONTHIEU Hugo</title>
+  <meta name="description" content="Jeu de type runner réalisé en une semaine en binôme ; développement C++ par Hugo PONTHIEU">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#14161a">
+  <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="site-header">
+    <a class="brand" href="../../">PONTHIEU Hugo</a>
+    <nav aria-label="Navigation principale">
+      <a href="../../#projets">Projets</a>
+      <a href="../../#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="contenu">
+    <!-- Fil d'Ariane : le dernier élément n'est pas un lien -->
+    <nav class="breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../">Accueil</a></li>
+        <li><a href="../../#projets">Projets</a></li>
+        <li aria-current="page">Runner</li>
+      </ol>
+    </nav>
+
+    <!-- ===== EN-TÊTE : galerie à gauche, panneau d'infos à droite ===== -->
+    <div class="project-hero">
+      <h1>Runner</h1>
+
+      <div class="project-top">
+
+        <!-- GALERIE
+             - Chaque miniature est un lien <a class="gallery-thumb"> :
+               sans JavaScript, il ouvre simplement l'image ou la vidéo.
+             - Image :  href = l'image en grand ; l'<img> dedans sert de miniature
+               (tu peux pointer vers une version plus petite, ~400 px de large, pour alléger).
+             - Vidéo YouTube : href = lien youtube.com, data-youtube = l'identifiant de la vidéo
+               (ce qui suit "v=" dans l'adresse), data-poster = ton image d'aperçu.
+               La vidéo ne se charge qu'au clic, via youtube-nocookie.com :
+               aucune requête vers Google tant que le visiteur ne lance pas la lecture.
+             - data-label : texte alternatif de l'image en grand / titre de la vidéo.
+             - Une seule miniature ? Les flèches et la bande disparaissent toutes seules.
+             - Pas de vidéo pour ce projet ? Supprime simplement son <li>. -->
+        <section class="gallery" aria-label="Galerie du projet">
+          <div class="gallery-stage">
+            <div class="gallery-viewer">
+              <!-- Affiché sans JavaScript ; remplacé par la galerie sinon -->
+              <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="">
+            </div>
+            <button type="button" class="gallery-nav gallery-prev" aria-label="Média précédent">‹</button>
+            <button type="button" class="gallery-nav gallery-next" aria-label="Média suivant">›</button>
+          </div>
+
+          <ul class="gallery-thumbs">
+            <li>
+              <!-- MODÈLE vidéo YouTube (non répertoriée : OK, le lien suffit) -->
+               <!-- TODO : Faire et mettre le lien de la vidéo de game loop -->
+              <a class="gallery-thumb gallery-thumb--video"
+                 href="https://www.youtube.com/watch?v=TODO-ID"
+                 data-youtube="TODO-ID"
+                 data-poster="../../images/feature-placeholder.svg"
+                 data-label="Démo">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">Vidéo : Démo runner</span>
+              </a>
+            </li>
+            <li>
+              <!-- MODÈLE image : copie ce <li> pour chaque capture -->
+                <!-- TODO : images/projets/runner/capture-1.webp -->
+              <a class="gallery-thumb"
+                 href="../../images/feature-placeholder.svg"
+                 data-label="TODO description de la capture 1">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">TODO description de la capture 1</span>
+              </a>
+            </li>
+            <li>
+              <!-- TODO : images/projets/runner/capture-2.webp -->
+              <a class="gallery-thumb"
+                 href="../../images/feature-placeholder.svg"
+                 data-label="TODO description de la capture 2">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">TODO description de la capture 2</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <!-- PANNEAU D'INFOS -->
+        <aside class="project-info" aria-label="Fiche du projet">
+          <!-- Image d'en-tête (masquée sur mobile) : une capture représentative -->
+          <img class="project-info-cover" src="../../images/feature-placeholder.svg" width="1200" height="675" alt="">
+          <div class="project-info-body">
+            <p class="project-info-lead">Runner 3D avec génération de chemin infini, développé en une semaine</p>
+
+            <!-- Ajoute, retire ou renomme les lignes librement (une paire <dt>/<dd> par ligne) -->
+            <dl class="project-facts">
+              <dt>Contexte</dt><dd>Projet d'école</dd>
+              <dt>Équipe</dt><dd>Binôme</dd>
+              <dt>Mon rôle</dt><dd>Développeur Gameplay C++</dd>
+              <dt>Durée</dt><dd>1 semaine</dd>
+              <dt>Moteur</dt><dd>GC Simple Renderer</dd>
+            </dl>
+
+            <ul class="tags" aria-label="Mots-clés">
+              <li>C++</li>
+              <li>3D</li>
+              <li>Moteur custom</li>
+              <li>Production courte</li>
+              <li>Génération procédurale</li>
+            </ul>
+
+            <a class="button project-info-cta" href="https://github.com/PONTHIEU-Hugo/Basic-3D-Runner" rel="noopener">Voir le code sur GitHub</a>
+            <!-- Code non public ? Remplace le bouton par :
+                 <p class="project-info-note">Code non public (projet d'école).</p> -->
+          </div>
+        </aside>
+
+      </div>
+    </div>
+
+    <!-- ===== TEXTE DU PROJET ===== -->
+    <article class="project-page">
+      <!-- Sommaire : main.js le remplit à partir des <h2> -->
+      <nav class="toc" aria-label="Sur cette page">
+        <p class="toc-title">Sur cette page</p>
+        <ol id="toc"></ol>
+      </nav>
+
+      <!-- Les <h2> alimentent le sommaire : garde-les courts et distincts -->
+      <section>
+        <h2>Objectif</h2>
+        <p>
+          L'objectif de ce projet était de produire un jeu en 3D en binôme sur le Simple Renderer, une version allégée du GC Engine (moteur de rendu étudiant de l'école Gaming Campus).
+          Le but principal étant de nous apprendre les 3C dans le jeu vidéo ainsi que de prendre en main le Simple Renderer.
+          Les 3C sont le trio Camera/Controls/Character. 
+          Celui-ci peut se résumer par : la Camera voit, les contrôles sont la façon d'interagir, le Character est ce qui est incarné par le joueur.
+        </p>
+      </section>
+      <section>
+        <h2>Fonctionnement</h2>
+        <h3>Principe du jeu</h3>
+        <p>
+          Dans ce runner, vous devez avancer le plus loin possible pour faire le plus haut score.
+          Dans ce but, une suite de chemins est générée à l'infini devant vous qui est elle-même constituée de tuiles prédéfinies.
+          Pour éviter de retrouver un jeu lassant sur le long terme, une gestion de notre propre vitesse a été mise en place.
+          Au fur et à mesure que l'on avance, notre personnage perd en vitesse et s'arrêter signe la fin de la partie.
+          Pour en regagner, des bonus sont disposés aléatoirement sur le chemin du joueur.
+          Ceux-ci gagnent en puissance quand le joueur n'en récupère pas pendant une certaine durée.
+        </p>
+
+        <h3>Génération infinie</h3>
+        <p>
+          Pour que le score n'ait pas de limite, nous avons eu besoin d'une génération infinie.
+          Voilà donc la première tâche qui m'a été attribuée.
+          Ayant des tuiles possédant du vide, il m'a donc fallu penser à ce système tout en évitant d'avoir des obstacles où le joueur ne peut simplement pas passer.
+          Heureusement pour moi, nous avons décidé d'adopter un style de mouvement similaire à Subway Surfers ou Minion Rush qui ne possèdent que 3 colonnes où le joueur peut être.
+          J'ai donc pu configurer chaque tuile de façon à connaitre quelles entrées et quelles sorties elle possède pour pouvoir les lier entre elles.
+          Pour éviter que le chemin ne soit trop gourmand en performance, il possède une longueur définie.
+          Quand on termine le parcours d'une tuile, elle est supprimée et une nouvelle est créée à l'avant.
+        </p>
+
+        <h3>Création de bonus</h3>
+        <p>
+          Une fois que le chemin est généré et si on veut éviter que le jeu ne soit impossible, il faut ajouter des bonus.
+          J'ai donc eu pour seconde mission de trouver un moyen d'ajouter des bonus sur les tuiles sans que ceux-ci ne soient dans le sol ou les murs.
+          Pour pallier ce problème, j'en suis venu à faire du polymorphisme.
+          De cette manière, la tuile s'occupe elle-même de générer ses bonus et de gérer où ceux-ci se trouvent.
+        </p>
+      </section>
+      <section>
+        <h2>Difficultés rencontrées</h2>
+        <p>
+          La principale difficulté que nous avons rencontrée est la prise en main du moteur.
+          En effet, n'ayant aucune expérience avec la version légère du GC Engine, nous avons dû sur le moment le prendre en main ce qui n'a pas été facile.
+          J'ai pour ma part pu gagner en adaptabilité dans des conditions où je ne connais pas le moteur sur lequel je suis censé travailler. 
+        </p>
+
+        <p>
+          Une autre difficulté à laquelle j'ai dû faire face a été de faire en sorte que les bonus puissent apparaitre à des endroits précis et non dans des murs ou le sol.
+          J'ai d'abord essayé de faire en sorte qu'il y ait des endroits prédéfinis pour les bonus quand on génère une tuile mais je me suis heurté à la limite suivante : je ne pouvais plus faire d'escaliers.
+          Plus précisément, concevoir de cette manière aurait mis en place trop de conditionnel propre à chaque tuile et aurait provoqué une maintenance du code plus complexe.
+          J'en suis donc venu à réorganiser les tuiles pour faire du polymorphisme.
+          Ainsi, je n'avais plus qu'à définir une fonction de génération de bonus sur chaque classe et lorsque je générais une tuile je n'avais plus rien à faire.
+          Elle s'occupait de savoir si elle possède un bonus ou pas et si oui à quel endroit sur elle-même.
+        </p>
+      </section>
+      <section>
+        <h2>Résultat</h2>
+        <p>
+          Si l'on parle maintenant de résultat, je trouve que l'on s'en est bien sorti.
+          En effet, le jeu est jouable malgré quelques légers bugs dans le gameplay mais il reste cependant assez amusant à jouer.
+        </p>
+
+        <p>
+          Si nous avions eu plus de temps, je pense que nos principaux axes d'amélioration auraient été de corriger les bugs restants ainsi que d'améliorer le ressenti pour le joueur.
+          De plus, nous aurions pu apporter plus de soin à l'équilibrage du jeu qui peut parfois mener à des cas impossibles.
+          Pour être plus précis, l'accumulation de vitesse dans les bonus si aucun n'est pris pendant une longue période engendre une vitesse impossible à contrôler et le joueur perd instantanément. 
+        </p>
+      </section>
+    </article>
+
+    <!-- Projet précédent / suivant : supprime un lien aux extrémités de la liste -->
+    <nav class="pager" aria-label="Autres projets">
+      <a rel="prev" href="../HLT_Engine/">HLT Engine</a>
+      <a rel="next" href="../A_Game_About_Travelling/">A Game About Travelling</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year">2026</span> PONTHIEU Hugo</p>
+    <p class="credit">Design et contenu : PONTHIEU Hugo. Code écrit par <a href="https://www.anthropic.com/claude" rel="noopener">Claude</a> (modèles Claude Sonnet 5.5 et Claude Opus 5.5, Anthropic).</p>
+  </footer>
+</body>
+</html>

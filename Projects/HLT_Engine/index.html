@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HLT Engine - PONTHIEU Hugo</title>
+  <meta name="description" content="HLT Engine, moteur de jeu 3D sous DirectX 12 réalisé en 1 mois ; développement en C++ par Hugo PONTHIEU.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#14161a">
+  <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/style.css">
+  <script src="../../js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="site-header">
+    <a class="brand" href="../../">PONTHIEU Hugo</a>
+    <nav aria-label="Navigation principale">
+      <a href="../../#projets">Projets</a>
+      <a href="../../#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="contenu">
+    <!-- Fil d'Ariane : le dernier élément n'est pas un lien -->
+    <nav class="breadcrumb" aria-label="Fil d'Ariane">
+      <ol>
+        <li><a href="../../">Accueil</a></li>
+        <li><a href="../../#projets">Projets</a></li>
+        <li aria-current="page">HLT Engine</li>
+      </ol>
+    </nav>
+
+    <!-- ===== EN-TÊTE : galerie à gauche, panneau d'infos à droite ===== -->
+    <div class="project-hero">
+      <h1>HLT Engine</h1>
+
+      <div class="project-top">
+
+        <!-- GALERIE
+             - Chaque miniature est un lien <a class="gallery-thumb"> :
+               sans JavaScript, il ouvre simplement l'image ou la vidéo.
+             - Image :  href = l'image en grand ; l'<img> dedans sert de miniature
+               (tu peux pointer vers une version plus petite, ~400 px de large, pour alléger).
+             - Vidéo YouTube : href = lien youtube.com, data-youtube = l'identifiant de la vidéo
+               (ce qui suit "v=" dans l'adresse), data-poster = ton image d'aperçu.
+               La vidéo ne se charge qu'au clic, via youtube-nocookie.com :
+               aucune requête vers Google tant que le visiteur ne lance pas la lecture.
+             - data-label : texte alternatif de l'image en grand / titre de la vidéo.
+             - Une seule miniature ? Les flèches et la bande disparaissent toutes seules.
+             - Pas de vidéo pour ce projet ? Supprime simplement son <li>. -->
+        <section class="gallery" aria-label="Galerie du projet">
+          <div class="gallery-stage">
+            <div class="gallery-viewer">
+              <!-- Affiché sans JavaScript ; remplacé par la galerie sinon -->
+              <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="">
+            </div>
+            <button type="button" class="gallery-nav gallery-prev" aria-label="Média précédent">‹</button>
+            <button type="button" class="gallery-nav gallery-next" aria-label="Média suivant">›</button>
+          </div>
+
+          <ul class="gallery-thumbs">
+            <li>
+              <!-- MODÈLE vidéo YouTube (non répertoriée : OK, le lien suffit) -->
+              <a class="gallery-thumb gallery-thumb--video"
+                 href="https://www.youtube.com/watch?v=TODO-ID"
+                 data-youtube="TODO-ID"
+                 data-poster="../../images/feature-placeholder.svg"
+                 data-label="TODO titre de la vidéo">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">Vidéo : TODO titre de la vidéo</span>
+              </a>
+            </li>
+            <li>
+              <!-- MODÈLE image : copie ce <li> pour chaque capture -->
+              <a class="gallery-thumb"
+                 href="../../images/feature-placeholder.svg"
+                 data-label="TODO description de la capture 1">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">TODO description de la capture 1</span>
+              </a>
+            </li>
+            <li>
+              <a class="gallery-thumb"
+                 href="../../images/feature-placeholder.svg"
+                 data-label="TODO description de la capture 2">
+                <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
+                <span class="visually-hidden">TODO description de la capture 2</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <!-- PANNEAU D'INFOS -->
+        <aside class="project-info" aria-label="Fiche du projet">
+          <!-- Image d'en-tête (masquée sur mobile) : une capture représentative -->
+          <img class="project-info-cover" src="../../images/feature-placeholder.svg" width="1200" height="675" alt="">
+          <div class="project-info-body">
+            <p class="project-info-lead">Moteur de jeu sous DirectX 12, produit en 1 mois et fonctionnant avec un ECS.</p>
+
+            <!-- Ajoute, retire ou renomme les lignes librement (une paire <dt>/<dd> par ligne) -->
+            <dl class="project-facts">
+              <dt>Contexte</dt><dd>Projet d'école</dd>
+              <dt>Équipe</dt><dd>Trinôme</dd>
+              <dt>Mon rôle</dt><dd>Développeur moteur (ECS)</dd>
+              <dt>Durée</dt><dd>1 mois (3 semaines de production)</dd>
+            </dl>
+
+            <ul class="tags" aria-label="Mots-clés">
+              <li>C++</li>
+              <li>DirectX12</li>
+              <li>3D</li>
+              <li>ECS</li>
+            </ul>
+
+            <!-- TODO : mettre le vrai lien du dépôt -->
+            <a class="button project-info-cta" href="https://github.com/TON-PSEUDO/TODO-depot" rel="noopener">Voir le code sur GitHub</a>
+            <!-- Code non public ? Remplace le bouton par :
+                 <p class="project-info-note">Code non public (projet d'école).</p> -->
+          </div>
+        </aside>
+
+      </div>
+    </div>
+
+    <!-- ===== TEXTE DU PROJET ===== -->
+    <article class="project-page">
+      <!-- Sommaire : main.js le remplit à partir des <h2> -->
+      <nav class="toc" aria-label="Sur cette page">
+        <p class="toc-title">Sur cette page</p>
+        <ol id="toc"></ol>
+      </nav>
+
+      <!-- Les <h2> alimentent le sommaire : garde-les courts et distincts -->
+      <section>
+        <h2>Objectif</h2>
+        <p>
+          L'objectif de ce projet était de concevoir un moteur de jeu custom en trinôme.
+          Il nous était demandé de structurer la partie moteur avec un ECS et la partie rendu avec l'API DirectX 12.
+          À cela s'ajoutait un objectif de rendu pour tester le fonctionnement du moteur.
+          La première démo proposée était un joueur fixe tirant sur des ennemis qui arrivent de tout autour.
+          La deuxième démo proposée était un rail shooter.
+        </p>
+      </section>
+      <section>
+        <h2>Fonctionnement</h2>
+        <h3>ECS</h3>
+        <p>
+          Comme dit précédemment, le moteur custom que nous devions concevoir avait pour obligation d'être architecturé autour d'un ECS.
+          Pour le nôtre, nous sommes partis sur un ECS de type sparse set, qui est une forme d'ECS très performante.
+          Il consiste à aligner les données en mémoire pour éviter d'avoir des trous dans les listes.
+          Après cela, on sait toujours à qui appartient quoi en ayant un tableau identifiant-indice et un autre indice-identifiant.
+          De cette manière, on obtient une complexité de recherche, d'insertion et de suppression en O(1).
+          À noter que, pour notre part, les indices sont contigus là où les données sont stockées sous forme de pointeurs.
+          On accepte cette rapidité au détriment de la mémoire, que l'on va considérer comme non prioritaire sur ce projet.
+        </p>
+        <p>
+          Une fois cette architecture faite, et pour éviter des allocations et désallocations inutiles, on s'est décidé à ajouter des pools de composants.
+          Quand on retire un composant d'un type à une entité, on va déplacer celui-ci dans un « second ECS » d'inutilisés.
+          Par la suite, si on veut ajouter ce type de composant à une entité, on ira seulement piocher dans les inutilisés de ce type pour éviter le coût d'allocation mémoire.
+        </p>
+        <p>
+          Afin de limiter les abus et de rendre le fonctionnement plus pratique, on a aussi décidé d'ajouter des états sur les composants et les systèmes.
+          Deux états simples : actif et inactif.
+          Si un système est actif, il s'exécute à chaque frame ; sinon, il ne fait rien.
+          Si un composant est actif, il est considéré comme possédé et pris en compte par les systèmes ; sinon, c'est comme s'il n'existait pas.
+        </p>
+
+        <h3>Collisions</h3>
+        <p>
+          Pour les collisions, nous avons décidé d'utiliser ce qui était déjà implémenté dans DirectXMath : les Bounding Box.
+          En effet, nous avons voulu garder une certaine simplicité quant aux calculs, à cause de la limite de temps que nous avions, en ne permettant que les collisions AABB et OBB.
+          Les collisions de mesh auraient demandé un temps trop important que nous n'avons pas pu nous permettre.
+          Avec les Bounding Box, nous ne faisons que détecter si une boîte entre en collision avec une autre.
+          Pour faciliter la répartition des comportements après collision, un système déjà présent dans l'ECS met à jour les colliders et permet de savoir quelle entité est touchée.
+          Un second système, optionnel, permet d'éviter l'overlap entre les entités en les repoussant (RepulseSystem).
+        </p>
+
+        <h3>Autres points notables</h3>
+        <p>
+          Par-dessus ces fonctions cachées à l'utilisateur, on a pensé à ce qui est agréable à utiliser, comme la hiérarchie des transforms.
+          Un autre point important est la possibilité d'importer des fichiers OBJ créés via des logiciels tiers.
+          Les machines à états sont aussi gérées directement par le moteur via l'ECS.
+          Celui-ci comprend des transitions et des conditions implémentées de manière générique, pouvant être utilisées pour concevoir celles dont l'utilisateur rêve.
+          Enfin, le moteur possède une démo qui n'est pas celle attendue.
+          La démo présente sur le rendu est un joueur statique dans une carte fermée, qui contrôle librement la caméra.
+          Nous avions une démo correspondant à la première idée proposée, mais par la suite nous avons tenté de nous orienter vers la deuxième et cela n'a pas eu l'effet escompté.
+        </p>
+      </section>
+      <section>
+        <h2>Difficultés rencontrées</h2>
+        <p>
+          Au cours de ce projet, la grosse difficulté qu'a eue le groupe a été d'architecturer le moteur.
+          En effet, au lancement de la production, on s'est directement répartis sur les cœurs du projet et nous n'avons même pas préparé d'architecture en avance.
+          Personnellement, je m'occupais de la partie core et engine tandis que mes deux coéquipiers travaillaient sur la partie rendu du moteur.
+          Cela a eu pour conséquence qu'au moment d'assembler le tout, nous n'avions pas forcément les bons formats entre nous.
+          Par la suite, lors de nos partiels, j'ai eu beaucoup de difficultés car ceux-ci étaient orientés rendu et non moteur, ce qui m'a beaucoup désavantagé, car nous n'étions pas organisés pour que chacun touche à tout.
+        </p>
+
+        <p>
+          Maintenant, en termes de conception, ce qui m'a posé le plus de difficultés a été l'ECS, qui m'a pris énormément de temps.
+          Dès le départ, j'ai eu du mal à saisir le fonctionnement de l'ECS et ce qu'il apportait par rapport à un simple EC, à part de la complexité.
+          Concevoir uniquement avec des systèmes me semblait extrêmement ardu et inutile face à un EC, plus simple à comprendre et à utiliser.
+          Après avoir fait des recherches et en avoir discuté avec un camarade d'un autre groupe, j'ai fini par comprendre comment tout cela s'enchevêtrait et comment le mettre en place.
+          À la fin de cette discussion, j'en suis aussi venu à me tourner vers le sparse set.
+          Celui-ci présentait beaucoup d'avantages et faisait appel à des notions que je n'avais pas : une vraie source d'apprentissage.
+        </p>
+      </section>
+      <section>
+        <h2>Résultat</h2>
+        <p>
+          Pour conclure, je trouve qu'on se retrouve avec une bonne base de moteur.
+          Pour un projet scolaire, je le trouve correct, car il m'a permis de beaucoup apprendre sur le fonctionnement d'un ECS et d'un moteur, tout en me permettant de survoler le rendu 3D.
+          Côté rendu, on se retrouve avec une démo fonctionnelle même si non jouable (nous avons préféré la stabilité à la démonstration).
+          On a aussi un ECS fonctionnel et un rendu basique mais efficace.
+        </p>
+
+        <p>
+          Comme piste d'amélioration, je peux commencer par citer le stockage des composants de l'ECS.
+          Comme dit précédemment, ce qui fait sa force est son alignement mémoire.
+          J'ai malheureusement implémenté des pointeurs vers les données, ce qui les disperse dans la mémoire et fait perdre à l'ECS de son efficacité.
+          Si je devais corriger cela, je pense que je commencerais par supprimer le pointeur, puis je passerais d'un stockage AoS (tableau de structures) à un stockage SoA (structure de tableaux), qui permet dans certains cas d'accélérer les calculs.
+        </p>
+
+        <p>
+          Grâce à ce projet, j'ai pu me rendre compte que se lancer à plusieurs dans de tels projets sans architecture définie apporte plus de problèmes que d'avantages au groupe.
+          Donner le rendu 3D à certaines personnes et le reste à d'autres n'est pas une solution viable : en cas de problème sur le rendu, je ne pouvais qu'attendre qu'ils aient du temps, et inversement.
+          Chaque module d'un moteur a son importance, et pour pouvoir modifier le moteur efficacement, il faut connaître une part importante de chacun.
+        </p>
+      </section>
+    </article>
+
+    <!-- Projet précédent / suivant : supprime un lien aux extrémités de la liste -->
+    <nav class="pager" aria-label="Autres projets">
+      <a rel="prev" href="../Chessy/">Chessy</a>
+      <a rel="next" href="../Runner/">Runner</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year">2026</span> PONTHIEU Hugo</p>
+    <p class="credit">Design et contenu : PONTHIEU Hugo. Code écrit par <a href="https://www.anthropic.com/claude" rel="noopener">Claude</a> (modèles Claude Sonnet 5.5 et Claude Opus 5.5, Anthropic).</p>
+  </footer>
+</body>
+</html>

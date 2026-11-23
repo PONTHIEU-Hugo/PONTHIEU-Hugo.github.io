@@ -4,12 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Page introuvable</title>
+  <meta name="color-scheme" content="dark">
+  <!-- Cette page n'a pas à être référencée par les moteurs de recherche -->
+  <meta name="robots" content="noindex">
   <!-- Cette page est servie à n'importe quelle adresse inconnue :
        les chemins doivent donc partir de la racine ("/"), pas être relatifs. -->
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <main>
+  <!-- La classe page-404 centre le contenu (voir PAGE 404 dans style.css) -->
+  <main class="page-404">
     <h1>TODO : page introuvable</h1>
     <p>TODO : explique quoi faire. <a href="/">Retour à l'accueil</a></p>
   </main>
