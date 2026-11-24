@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="../../css/style.css">
   <script src="../../js/main.js" defer></script>
 </head>
-<body data-wip>
+<body>
   <a class="skip-link" href="#contenu">Aller au contenu</a>
 
   <header class="site-header">
@@ -83,17 +83,19 @@
           <ul class="gallery-thumbs">
             <li>
               <!-- MODÈLE vidéo YouTube (non répertoriée : OK, le lien suffit) -->
+               <!-- TODO : Faire et mettre le lien de la vidéo de game loop (partie d'échec) -->
               <a class="gallery-thumb gallery-thumb--video"
                  href="https://www.youtube.com/watch?v=TODO-ID"
                  data-youtube="TODO-ID"
                  data-poster="../../images/feature-placeholder.svg"
                  data-label="TODO titre de la vidéo">
                 <img src="../../images/feature-placeholder.svg" width="1200" height="675" alt="" loading="lazy">
-                <span class="visually-hidden">Vidéo : TODO titre de la vidéo</span>
+                <span class="visually-hidden">Vidéo : Game Loop d'échec</span>
               </a>
             </li>
             <li>
               <!-- MODÈLE image : copie ce <li> pour chaque capture -->
+              <!-- TODO : images/projets/chessy/capture-1.webp -->
               <a class="gallery-thumb"
                  href="../../images/feature-placeholder.svg"
                  data-label="TODO description de la capture 1">
@@ -102,6 +104,7 @@
               </a>
             </li>
             <li>
+              <!-- TODO : images/projets/chessy/capture-2.webp -->
               <a class="gallery-thumb"
                  href="../../images/feature-placeholder.svg"
                  data-label="TODO description de la capture 2">
@@ -117,7 +120,7 @@
           <!-- Image d'en-tête (masquée sur mobile) : une capture représentative -->
           <img class="project-info-cover" src="../../images/feature-placeholder.svg" width="1200" height="675" alt="">
           <div class="project-info-body">
-            <p class="project-info-lead">TODO résumé en une phrase</p>
+            <p class="project-info-lead">Un langage de programmation conçu pour l'optimisation de recherche de coup en profondeur aux échecs.</p>
 
             <!-- Ajoute, retire ou renomme les lignes librement (une paire <dt>/<dd> par ligne) -->
             <dl class="project-facts">
@@ -254,19 +257,64 @@
       </section>
 
       <section><h2>Difficultés rencontrées</h2>
+        <h3>Conception du Lexer</h3>
         <p>
-          La plus grosse difficulté a été l'assemblage de la pipeline.
-          Le Compiler et la VM ont été développés en parallèle, chacun de notre côté, sans format de bytecode fixé à l'avance.
-          Au moment de les fusionner, le bytecode produit par le Compiler ne correspondait pas toujours à ce qu'attendait ma VM : ordre des opérandes, registre de la valeur de retour, gestion des arguments lors des appels.
-          Il nous a fallu plusieurs merges et de nombreux correctifs avant d'obtenir un premier programme qui s'exécute de bout en bout.
-          <!-- TODO : précise ici ce qui bloquait vraiment juste avant le commit « ENFIN UN TRUC QUI MARCHE » -->
+          Au début de la conception de l'interpréter, je me suis vu assigner le Lexer.
+          Celui-ci m'a posé problème car je ne voyais pas comment celui-ci pouvait fonctionner ou comment le faire.
+          L'intervenant, voyant que plusieurs étaient dans mon cas, nous a donc envoyé un ouvrage parlant de la conception d'interpréter.
+          Je me suis donc penché dessus et celui-ci proposait une implémentation possible de Lexer.
+          Je l'ai donc suivi, en apportant les modification nécessaires au projet, pour pouvoir concevoir celui-ci.
+          Cet ouvrage est celui de Robert NYSTROM du nom de <a href="https://craftinginterpreters.com/" rel="noopener">Crafting Interpreters</a>.
+        </p>
+
+        <h3>Opérations côté C++</h3>
+        <p>
+          Comme dit précédemment, nous avons fait le choix de partir directement sur une VM basée sur des registres.
+          Cela nous a apporté des avantages de performances mais aussi car je pensais mieux comprendre celle-ci qu'un Tree Walking.
+          Lors de sa conception, je me suis heurté à un mur, devoir faire l'infrastructure permettant de faire les opérations C++.
+          Pour la structure contenant les données j'ai très vite eu l'idée de faire un union de données mais pour les fonctions, j'ai eu du mal à trouver un moyen de les concevoir.
+          La seule solution que je voyais était de les coder à la main mais cela représentait des centaines de fonctions et de variantes (dû à l'ordre des types).
+          Sous la recommendation de mon collègue, je me suis penché sur les Traits et sur les templates.
+          Cette structure permet en programmation de ne les écrire qu'une fois de manière généraliste et, à la compilation, de générer toutes les variantes existanstes.
+          Ces variantes sont ensuites stockées dans un tableau auquel il ne reste plus qu'à faire une entrée.
+        </p>
+
+        <h3>CMake</h3>
+        <p>
+          CMake est un moyen simple de compiler un projet et de l'exécuter.
+          Pour notre part, nous avons fait le choix de partir sur cet outil afin d'avoir une certaine portabilité du projet (qui était encouragée par l'intervenant).
+          Ne connaissant pas bien CMake, nous avons fait le choix de nous aider de <a href="https://www.anthropic.com/claude" rel="noopener">Claude</a> pour configurer cette partie du projet.
+          Nous avons cependant eu des problèmes avec celui-ci car personnellement j'utilise Visual Studio Code et mon collègue utilise Visual Studio.
+          Nous avons eu des problèmes à la compilation car les deux environnement n'interagissent pas avec CMake de la même façon.
+          Pour palier à ce problème, mon collègue est passé lui aussi sur Visual Studio Code et nous avons revu la configuration du projet pour avoir une configuration plus propre de celui-ci.
         </p>
       </section>
 
       <section><h2>Résultat</h2>
+        <h3>Ce qui est</h3>
         <p>
-          Au bout des deux semaines, Chessy fonctionne de bout en bout : un fichier <code>.chessy</code> est analysé, compilé puis exécuté par notre VM.
-          Notre programme principal, entièrement écrit en Chessy, contient un alpha-beta avec quiescence search et tri des coups MVV-LVA, et permet de jouer contre l'IA directement dans le terminal.
+          Au bout de ces deux semaines nous nous retrouvons avec un résultat satisfaisant.
+          Nous avons des fichier <code>.chessy</code> qui sont analysé pour vérifier la sytanxe, compilé pour obtenir un bytecode correspondant et exécuté dans un VM.
+          A cela s'ajoute des fonctions built-in et des classes propres au langages.
+          Nous avons aussi un programme écrit entièrement en Chessy qui effectue un Alpha-Beta avec une Quiescence search et un tri des coups.
+          Ce programme permet de jouer une partie contre l'IA directement dans le terminal.
+        </p>
+
+        <h3>Ce qu'il faut retenir</h3>
+        <h3>CMake</h3>
+        <p>
+          Si nous devions refaire le projet, je pense que personnellement il faudrait m'intéresser à CMake avant de l'utiliser pour ne plus avoir ce type de problèmes.
+          En effet, je pense qu'une partie des problèmes aurait pu être résolu facilement si nous en avions la connaissance mais aucun de nous deux ne l'avait.
+        </p>
+        
+        <h3>Mieux prévoir</h3>
+        <p>
+          Un deuxième point que nous changerions serait de mieux anticiper ce que nous comptons implémenter car l'Alpha-Beta n'a pas été un bon exemple d'algorithme.
+          En effet, le but du projet était, certe de faire un interpréteur, mais aussi de manipuler l'accélération de calcul.
+          Pour cela nous avions accès au SIMD mais notre choix de l'Alpha-Beta ne l'a pas mis en valeur.
+          Qu'importe que nous le fassion s'exécuter en scalaire ou en vectoriel (SIMD), nous avoisinions toujours les mêmes résultat.
+          Notre choix de cet algorithme n'était donc pas le meilleur.
+          Nous aurions dû partir sur le second que nous envisagions à savoir un NNUE (Efficiently Updatable Neural Network).
         </p>
       </section>
     </article>
