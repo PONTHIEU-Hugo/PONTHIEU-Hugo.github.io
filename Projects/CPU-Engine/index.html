@@ -1,31 +1,21 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <!--
-    MODÈLE DE PAGE PROJET
-    1. Copie ce dossier : projets/_modele/  ->  projets/mon-projet/   (sans le "_")
-       (GitHub Pages ignore les dossiers qui commencent par "_" :
-        le modèle lui-même n'est donc pas publié)
-    2. Remplace tous les TODO.
-    3. Les chemins ../../ remontent de deux dossiers pour retrouver css/, js/, images/ :
-       garde-les tant que la page reste dans projets/<nom>/index.html
-    4. Range les médias du projet dans images/projets/<nom>/
-  -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TODO nom du projet – Ton Prénom</title>
-  <meta name="description" content="TODO une phrase sur le projet (max ~160 caractères).">
+  <title>CPU-Engine - PONTHIEU Hugo</title>
+  <meta name="description" content="CPU-Engine, moteur de rendu 3D entièrement logiciel réalisé en 3 semaines ; développement en C++ par Hugo PONTHIEU.">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#14161a">
   <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../../css/style.css">
   <script src="../../js/main.js" defer></script>
 </head>
-<body data-wip>
+<body>
   <a class="skip-link" href="#contenu">Aller au contenu</a>
 
   <header class="site-header">
-    <a class="brand" href="../../">TODO nom</a>
+    <a class="brand" href="../../">PONTHIEU Hugo</a>
     <nav aria-label="Navigation principale">
       <a href="../../#projets">Projets</a>
       <a href="../../#contact">Contact</a>
@@ -38,13 +28,13 @@
       <ol>
         <li><a href="../../">Accueil</a></li>
         <li><a href="../../#projets">Projets</a></li>
-        <li aria-current="page">TODO nom du projet</li>
+        <li aria-current="page">CPU-Engine</li>
       </ol>
     </nav>
 
     <!-- ===== EN-TÊTE : galerie à gauche, panneau d'infos à droite ===== -->
     <div class="project-hero">
-      <h1>TODO nom du projet</h1>
+      <h1>CPU-Engine</h1>
 
       <div class="project-top">
 
@@ -107,25 +97,25 @@
           <!-- Image d'en-tête (masquée sur mobile) : une capture représentative -->
           <img class="project-info-cover" src="../../images/feature-placeholder.svg" width="1200" height="675" alt="">
           <div class="project-info-body">
-            <p class="project-info-lead">TODO résumé en une phrase</p>
+            <p class="project-info-lead">Moteur de rendu 3D entièrement logiciel, produit en 3 semaines et sans carte graphique.</p>
 
             <!-- Ajoute, retire ou renomme les lignes librement (une paire <dt>/<dd> par ligne) -->
             <dl class="project-facts">
-              <dt>Contexte</dt><dd>TODO (projet perso, projet d'école…)</dd>
-              <dt>Équipe</dt><dd>TODO (seul, 4 personnes…)</dd>
-              <dt>Mon rôle</dt><dd>TODO (à garder pour un projet d'équipe)</dd>
-              <dt>Durée</dt><dd>TODO</dd>
-              <dt>Technos</dt><dd>TODO (C++, SDL3…)</dd>
+              <dt>Contexte</dt><dd>Projet d'école</dd>
+              <dt>Équipe</dt><dd>Trinôme</dd>
+              <dt>Mon rôle</dt><dd>Génération procédurale, océan, gestion du temps</dd>
+              <dt>Durée</dt><dd>3 semaines</dd>
             </dl>
 
             <ul class="tags" aria-label="Mots-clés">
-              <li>TODO</li>
-              <li>TODO</li>
+              <li>C++</li>
+              <li>SDL3</li>
+              <li>3D</li>
+              <li>Rendu logiciel</li>
+              <li>Génération procédurale</li>
             </ul>
 
-            <a class="button project-info-cta" href="https://github.com/TON-PSEUDO/TODO-depot" rel="noopener">Voir le code sur GitHub</a>
-            <!-- Code non public ? Remplace le bouton par :
-                 <p class="project-info-note">Code non public (projet d'école).</p> -->
+            <a class="button project-info-cta" href="https://github.com/PONTHIEU-Hugo/CPU-Engine" rel="noopener">Voir le code sur GitHub</a>
           </div>
         </aside>
 
@@ -143,32 +133,102 @@
       <!-- Les <h2> alimentent le sommaire : garde-les courts et distincts -->
       <section>
         <h2>Objectif</h2>
-        <p>TODO</p>
+        <p>
+          L'objectif de ce projet a été de concevoir un moteur de rendu 3D temps-réel tournant à 100% sur le CPU.
+          La seule base que nous avions était un squelette de programme utilisant la librairie SDL pour pouvoir afficher un tableau de pixel et gérant les entrées utilisateurs.
+          Excepté ceci, nous avions le droit d'utiliser la librairie GLM pour les calculs de vecteurs et de matrices ainsi que stb_image pour le chargement de textures et Assimp pour les modèles 3D.
+          Dans un but de pouvoir avoir un moteur à certaines fonctionnalités intéressantes telles que les shaders, nous avons aussi utilisé OpenMP afin d'avoir un multithreading rudimentaire.
+        </p>
       </section>
       <section>
         <h2>Fonctionnement</h2>
-        <p>TODO</p>
+        <h3>Pipeline de rendu</h3>
+        <p>
+          Le moteur reproduit le pipeline d'une carte graphique.
+          Chaque objet passe par un vertex shader puis par un pixel shader, qui sont ici de simples fonctions C++ interchangeables (Lambert, textures, réfraction, ombres, vagues…).
+          Les triangles sont ensuite découpés contre la caméra grâce au clipping et au frustum culling, pour ne jamais calculer ce qui n'est pas visible.
+          Pour tenir la cadence sur processeur, l'écran est divisé en 16 × 9 tuiles, rasterisées en parallèle sur tous les cœurs avec OpenMP.
+        </p>
+        <p>
+          Une image se construit en plusieurs passes : une passe d'ombres depuis la lumière (shadow map), une passe des objets opaques, puis la transparence, les particules et la skybox.
+          Les matériaux gèrent les normal maps, les textures ARM (occlusion, rugosité, métal) et le displacement, avec une tessellation des triangles pour donner du relief.
+          Les modèles sont chargés en OBJ ou en FBX via Assimp, avec gestion de l'animation squelettique.
+        </p>
+
+        <h3>Terrain procédural</h3>
+        <p>
+          Pour ma part, je me suis occupé de la génération du terrain.
+          Le terrain est une heightmap : une grille de hauteurs transformée en maillage, dont les normales et les couleurs sont calculées à partir des hauteurs voisines.
+          J'ai d'abord implémenté l'algorithme Diamond-Square, qui subdivise la grille en carrés et en losanges en ajoutant un décalage aléatoire de plus en plus faible.
+          Je suis ensuite passé au bruit de Perlin, puis au bruit de Perlin à octaves, qui superpose plusieurs couches de bruit de plus en plus fines pour obtenir un relief plus naturel.
+          Enfin, un masque en cône est appliqué sur les hauteurs pour transformer le terrain en île montagneuse entourée par l'océan.
+        </p>
+
+        <h3>Océan</h3>
+        <p>
+          Je me suis aussi occupé de l'océan.
+          La première version était un plan dont les sommets étaient animés par une sinusoïde, ce qui donnait des vagues trop régulières et trop arrondies.
+          Je l'ai ensuite remplacée par un vertex shader qui additionne plusieurs vagues de Gerstner, chacune avec sa direction, son amplitude et sa fréquence.
+          Contrairement à une simple sinusoïde, les sommets se déplacent aussi horizontalement, ce qui donne des crêtes plus pointues et des creux plus larges, plus proches d'une vraie mer.
+          Les normales sont recalculées analytiquement à partir des mêmes formules, pour que la lumière suive la surface de l'eau.
+        </p>
+
+        <h3>Autres points notables</h3>
+        <p>
+          Au début du projet, j'ai mis en place une classe Chrono, utilisée par tout le moteur.
+          Elle fournit le delta time et le temps total, compte les FPS et permet de les limiter (60 FPS par défaut).
+          Le reste de l'équipe s'est chargé du pipeline, des matériaux, de l'animation et des systèmes de particules (neige, fumée, nuages, étincelles).
+          Chaque fonctionnalité possède aussi sa propre scène de test, ce qui permet de la présenter et de la vérifier séparément du reste.
+        </p>
       </section>
       <section>
         <h2>Difficultés rencontrées</h2>
-        <p>TODO</p>
+        <h3>Problème de normales</h3>
+        <p>
+          La principale difficulté que j'ai pu rencontrer a été de faire le calcul des normales.
+          En effet, j'ai eu du mal à trouver une méthode de calcul fonctionnelle et propre pour pouvoir les faire sur les vertices du terrain ainsi que des vagues.
+        </p>
+        <p>
+          Tout d'abord, je me suis confronté au terrain qui m'a posé problème.
+          Les différences de hauteurs entre les vertices créaient des problèmes d'ombres faisant un quadrillage d'ombres sur chaque triangles du maillage.
+          Ce bug s'est résolu à force de recherche qui m'ont amenées à évaluer les différences de hauteurs entre les vertices d'un carré pour définir dans quel sens serait la diagonale.
+          Une fois cette évaluation faite, on peut faire les normales plus proprement et résoudre ainsi le problème.
+        </p>
+        <p>
+          Une fois les normalesdu terrain faites, j'ai dû me mettre à la création de celles présentes sur les vagues.
+          La différence principale face à un terrain est que sur un océan, les points bougent contiuellement de hauteur là ou le terrain reste fixe.
+          J'ai donc dû trouver comment régler ce problème sans pouvoir passer par la même méthode.
+          Après d'autres recherches, j'en suis venu à utiliser la dérivée de la fonction s'occupant de la position ce qui permet d'obtenir la position d'un point à des coordonnées précise et ainsi d'en déduire la pente dans laquelle il se trouve.
+        </p>
       </section>
       <section>
         <h2>Résultat</h2>
-        <p>TODO</p>
+        <p>
+          Pour conclure, on se retrouve avec un moteur de rendu entièrement logiciel et multithread.
+          Il est capable d'afficher une scène complète avec ombres, matériaux texturés, eau animée, particules et personnage animé.
+          Ce projet m'a permis de comprendre à quel point chaque choix d'algorithme pèse sur les performances quand aucune carte graphique n'est là pour compenser.
+        </p>
+
+        <p>
+          Comme piste d'amélioration, je peux commencer par citer le stockage des hauteurs du terrain.
+          Celles-ci sont rangées dans un tableau de tableaux, ce qui les disperse dans la mémoire.
+          Si je devais corriger cela, je passerais à un seul tableau contigu, plus rapide à parcourir.
+          Je pourrais aussi ajouter des niveaux de détail au terrain : beaucoup de triangles près de la caméra et peu au loin, plutôt que de réduire la densité partout.
+          J'en profiterai aussi pour pouvoir ajouter des textures à celui-ci car actuellement il se contente de baser ses couleurs sur la hauteur d'un point.
+        </p>
       </section>
     </article>
 
     <!-- Projet précédent / suivant : supprime un lien aux extrémités de la liste -->
     <nav class="pager" aria-label="Autres projets">
-      <a rel="prev" href="../TODO-precedent/">TODO projet précédent</a>
-      <a rel="next" href="../TODO-suivant/">TODO projet suivant</a>
+      <a rel="prev" href="../HLT_Engine/">HLT Engine</a>
+      <a rel="next" href="../HTN_AssetEngine/">HTN Asset Engine</a>
     </nav>
   </main>
 
   <footer class="site-footer">
-    <p>© <span id="year">2026</span> TODO nom</p>
-    <p class="credit">Design et contenu : TODO nom. Code écrit par <a href="https://www.anthropic.com/claude" rel="noopener">Claude</a> (modèles Claude Sonnet 5.5 et Claude Opus 5.5, Anthropic).</p>
+    <p>© <span id="year">2026</span> PONTHIEU Hugo</p>
+    <p class="credit">Design et contenu : PONTHIEU Hugo. Code écrit par <a href="https://www.anthropic.com/claude" rel="noopener">Claude</a> (modèles Claude Sonnet 5.5 et Claude Opus 5.5, Anthropic).</p>
   </footer>
 </body>
 </html>
