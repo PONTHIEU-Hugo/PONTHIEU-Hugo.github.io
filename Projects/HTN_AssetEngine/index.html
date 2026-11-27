@@ -14,18 +14,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HTN Asset Engine – PONTHIEU Hugo</title>
-  <meta name="description" content="TODO une phrase sur le projet (max ~160 caractères).">
+  <meta name="description" content="Librairie de gestion d'archive faite en C++ ; développement en C++ par Hugo PONTHIEU.">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#14161a">
   <link rel="icon" href="../../images/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../../css/style.css">
   <script src="../../js/main.js" defer></script>
 </head>
-<body data-wip>
+<body>
   <a class="skip-link" href="#contenu">Aller au contenu</a>
 
   <header class="site-header">
-    <a class="brand" href="../../">TODO nom</a>
+    <a class="brand" href="../../">PONTHIEU Hugo</a>
     <nav aria-label="Navigation principale">
       <a href="../../#projets">Projets</a>
       <a href="../../#contact">Contact</a>
@@ -38,13 +38,13 @@
       <ol>
         <li><a href="../../">Accueil</a></li>
         <li><a href="../../#projets">Projets</a></li>
-        <li aria-current="page">TODO nom du projet</li>
+        <li aria-current="page">HTN Asset Engine</li>
       </ol>
     </nav>
 
     <!-- ===== EN-TÊTE : galerie à gauche, panneau d'infos à droite ===== -->
     <div class="project-hero">
-      <h1>TODO nom du projet</h1>
+      <h1>HTN Asset Engine</h1>
 
       <div class="project-top">
 
@@ -107,23 +107,25 @@
           <!-- Image d'en-tête (masquée sur mobile) : une capture représentative -->
           <img class="project-info-cover" src="../../images/feature-placeholder.svg" width="1200" height="675" alt="">
           <div class="project-info-body">
-            <p class="project-info-lead">TODO résumé en une phrase</p>
+            <p class="project-info-lead">Libraire de gestion d'Archive basique avec un exemple d'utilisation dans un gestionnaire d'assets (images).</p>
 
             <!-- Ajoute, retire ou renomme les lignes librement (une paire <dt>/<dd> par ligne) -->
             <dl class="project-facts">
-              <dt>Contexte</dt><dd>TODO (projet perso, projet d'école…)</dd>
-              <dt>Équipe</dt><dd>TODO (seul, 4 personnes…)</dd>
-              <dt>Mon rôle</dt><dd>TODO (à garder pour un projet d'équipe)</dd>
-              <dt>Durée</dt><dd>TODO</dd>
-              <dt>Technos</dt><dd>TODO (C++, SDL3…)</dd>
+              <dt>Contexte</dt><dd>Projet d'école</dd>
+              <dt>Équipe</dt><dd>Trinôme</dd>
+              <dt>Mon rôle</dt><dd>Responsable de l'implémentation de l'Archive et sa gestion</dd>
+              <dt>Durée</dt><dd>1 semaine</dd>
             </dl>
 
             <ul class="tags" aria-label="Mots-clés">
-              <li>TODO</li>
-              <li>TODO</li>
+              <li>C++</li>
+              <li>Archive</li>
+              <li>ZLib</li>
+              <li>Compression</li>
+              <li>Gestionnaire d'assets</li>
             </ul>
 
-            <a class="button project-info-cta" href="https://github.com/TON-PSEUDO/TODO-depot" rel="noopener">Voir le code sur GitHub</a>
+            <a class="button project-info-cta" href="https://github.com/PONTHIEU-Hugo/HTN-Asset-Engine" rel="noopener">Voir le code sur GitHub</a>
             <!-- Code non public ? Remplace le bouton par :
                  <p class="project-info-note">Code non public (projet d'école).</p> -->
           </div>
@@ -141,21 +143,119 @@
       </nav>
 
       <!-- Les <h2> alimentent le sommaire : garde-les courts et distincts -->
-      <section>
-        <h2>Objectif</h2>
-        <p>TODO</p>
+      <section><h2>Objectif</h2>
+        <p>
+          L'objectif principal de ce projet était de nous faire expérimenter et comprendre comment gérer une bibliothèque d'asset de différents types.
+          Pour cela, nous avons eu pour demande de concevoir un format d'archive fonctionnel et organisé de manière assez libre et de documenter leur utilisation.
+          Pour notre part, nous avons décidé d'avoir un format d'archive général permettant l'ajout, la suppression et la modification de fichiers dans un archives en ayant une structure précise.
+          Nous avons aussi voulu ajouter la compression et décompression de fichiers via la ZLib ainsi que le cryptage en utilisant un AES.
+        </p>
       </section>
-      <section>
-        <h2>Fonctionnement</h2>
-        <p>TODO</p>
+      <section><h2>Fonctionnement</h2>
+        <h3>Deux bibliothèques</h3>
+        <p>
+          Le projet est découpé en deux bibliothèques C++ compilées avec CMake.
+          La première, HTN Lib, gère les archives : création, ajout, suppression et extraction de fichiers, avec compression, contrôle d'intégrité et chiffrement.
+          La seconde, Asset Engine, s'appuie sur HTN Lib pour stocker des images dans un format maison.
+          La compression repose sur zlib, que nous compilons directement depuis ses sources pour que le projet fonctionne sur n'importe quelle machine sans installation préalable.
+        </p>
+
+        <h3>Le format d'archive .htn</h3>
+        <p>
+          Une archive <code>.htn</code> se compose de trois parties.
+          Au début, un en-tête de 28 octets indique où se trouve le premier footer et comment celui-ci est compressé.
+          Viennent ensuite les fichiers stockés, chacun compressé séparément avec l'algorithme deflate de zlib.
+          Enfin, à la fin de l'archive, on retrouve un footer par fichier, qui contient son nom, sa position dans l'archive, sa taille compressée et décompressée ainsi que son CRC32.
+        </p>
+        <p>
+          Les footers ne sont pas rangés dans un simple tableau : chacun stocke la position du suivant, ce qui forme une liste chaînée, et le dernier pointe vers 0.
+          Ce choix permet de faire évoluer le format plus tard : la taille d'un footer se déduit de l'écart entre lui et le suivant, donc une future version pourra ajouter des champs sans casser la lecture des anciennes archives.
+        </p>
+        <p>
+          Pour gagner de la place, le bloc de footers est lui aussi compressé quand l'archive n'est pas utilisée.
+          Il est décompressé avant chaque lecture ou modification, puis recompressé à la fin.
+          Un compteur d'ouverture évite de le décompresser deux fois quand une opération en appelle une autre, par exemple un ajout qui doit d'abord supprimer l'ancienne version d'un fichier.
+          À chaque ouverture, le CRC32 du bloc est recalculé et comparé à celui de l'en-tête pour détecter une archive corrompue.
+        </p>
+
+        <h3>Les opérations sur l'archive</h3>
+        <p>
+          Toutes les lectures et écritures sur le disque passent par une classe <code>File</code>, qui permet de lire ou d'écrire des octets à une position précise, et de retirer une portion du fichier sans laisser de trou.
+          Pour ajouter un fichier, l'archive décale les footers de la taille des nouvelles données, insère ces données à leur place, puis ajoute le nouveau footer en bout de chaîne.
+          Si un fichier du même nom existe déjà, il est remplacé.
+          La suppression fait l'inverse : on retire les données et le footer, puis on recalcule les positions de tous les footers qui se trouvaient après.
+        </p>
+
+        <h3>CRC et chiffrement</h3>
+        <p>
+          Le CRC32 est implémenté à la main à l'aide d'une table de 256 valeurs précalculées, ce qui évite de refaire le calcul bit par bit pour chaque octet.
+          La bibliothèque propose aussi un chiffrement inspiré d'AES : les données sont découpées en blocs de 16 octets rangés en matrices 4 × 4, dont on décale les lignes, puis dont on mélange les colonnes par une multiplication dans le corps de Galois GF(2<sup>8</sup>), avant de leur appliquer la clé par un XOR.
+          Il s'agit d'une version simplifiée, sans S-box ni génération de sous-clés : elle sert surtout à comprendre les étapes d'AES et ne remplace pas une vraie bibliothèque de chiffrement.
+        </p>
+
+        <h3>L'outil en ligne de commande</h3>
+        <p>
+          HTN Lib est livrée avec un exécutable, <code>HtnE</code>, qui permet de manipuler les archives depuis un terminal.
+          Il propose les commandes <code>createArchive</code>, <code>addFiles</code>, <code>removeFiles</code>, <code>getFileNames</code>, <code>extractFile</code> et <code>extractAllFiles</code>, ainsi que <code>encrypt</code> et <code>decrypt</code> pour chiffrer n'importe quel fichier avec une clé.
+        </p>
+        <pre><code>HtnE createArchive "assets.htn"
+HtnE addFiles "assets.htn" "res/chat.bmp" "res/bg.tga"
+HtnE extractAllFiles "assets.htn" "sortie/"</code></pre>
+
+        <h3>Asset Engine et le format d'image</h3>
+        <p>
+          Asset Engine sert à montrer une utilisation concrète des archives.
+          Il charge des images BMP et TGA, puis les convertit dans un format d'image générique, <code>htn_img</code>, où chaque pixel est stocké en RGBA sur 4 octets, quel que soit le format d'origine.
+          Ce format est plus lourd qu'un BMP, mais il a l'avantage d'être le même pour toutes les images : le code qui les utilise n'a plus besoin de savoir d'où elles viennent.
+        </p>
+        <p>
+          Chaque image commence par un en-tête qui contient son nom, sa largeur, sa hauteur et la position du début des pixels.
+          Un espace vide est réservé après cet en-tête, ce qui permettra d'y ajouter des informations plus tard sans changer la façon de lire les pixels.
+          La classe <code>AssetManager</code> regroupe trois fonctions : <code>AddImages</code> pour convertir et ajouter des images à une archive, <code>RemoveImages</code> pour les retirer, et <code>LoadImage</code> pour récupérer une image prête à être utilisée.
+        </p>
+        <!-- TODO : ajoute ici ce que tu as fait toi-même, comme sur tes autres pages
+             ("Pour ma part, je me suis occupé de…") -->
       </section>
-      <section>
-        <h2>Difficultés rencontrées</h2>
-        <p>TODO</p>
+      <section><h2>Difficultés rencontrées</h2>
+        <h3>Organisation</h3>
+        <p>
+          Le début de ce projet a été pour nous quelque peu compliqué. 
+          Nous avons eu du mal à, non pas imaginer, mais à justifier l'organisation que nous imaginions faire.
+          En effet, le projet visait à nous faire justifier nos choix, ce que nous n'avons pas forcément l'habitude de faire.
+          Nous avons donc perdu du temps à trouver des justification à certaines choses que nous voulions faire et nous a amené à changer certaines autres.
+        </p>
+
+        <h3>Conception de l'Archive</h3>
+        <p>
+          Une fois notre idée de comment serait faite l'archive justifiée, nous avons dû passer à son implémentation.
+          Ayant une base de code pour gérer des écritures et lectures dans des fichiers, je me suis vu attribuer la tâche de concevoir la classe d'Archive qui ferait le travail demandé.
+          J'ai donc passé beaucoup de temps à la concevoir, tellement que je me suis retrouvé au troisième jour du projet sans avoir pu la compiler alors que nous n'en avions que 5.
+          Ma difficulté arrive pour la gestion des corruptions de mémoire que j'ai passé du temps à résoudre durant le troisième et quatrième jour.
+          Je me suis occupé de beaucoup de problèmes cependant, ayant une limite de temps courte ainsi qu'un manque de pistes pour les résoudre, certains bugs ont été corrigé grâçe l'identification qu'a pu m'apporter l'IA (Claude Opus 5.5).
+        </p>
+
+        <h3>CMake</h3>
+        <p>
+          Une autre difficulté que nous avons rencontré a été l'utilisation de la ZLib avec CMake.
+          Une partie de notre problème venait de mon utilisation de Visual Studio Code avec GCC qui ne fonctionne pas de la même manière que Visual Studio avec MSVC ce qui m'a poussé a approfondir le sujet de CMake.
+          Pour le début du projet, nous avions utilisé une version précompilée de ZLib faite sur Visual Studio 2026 qui ne fonctionne que sur cet IDE.
+          Nous avons donc du chercher un moyen de régler ce problème pour corriger des problèmes de portabilité et sommes passé par CMake.
+          Notre solution désormais est le téléchargement et la compilation de la ZLib à chaque premier lancement sur une nouvelle machine avec le compilateur associé.
+          Pour ma part, avec Visual Studio Code, j'ai ajouté un CMakeUserPreset.json qui n'est propre qu'à mon côté et que chaque personne peut ajouter à sa machine.
+          Il me permet ainsi de compiler la ZLib avec GCC tandis que mes deux collègues n'avaient pas ce fichier et compilaient grâçe à MSVC sur leur version de Visual Studio 2026.
+        </p>
       </section>
-      <section>
-        <h2>Résultat</h2>
-        <p>TODO</p>
+      <section><h2>Résultat</h2>
+        <p>
+          Pour finir, ce projet a fini avec un résultat satisfaisant.
+          Nous avons un format d'archive fonctionnel qui permet la lecture, l'écriture, la modification, l'ajout et la suppression de fichiers ainsi que sa documentation d'utilisation.
+          Nous avons aussi un de ses cas d'utilisation avec l'Asset Manager proposé dans le projet qui s'occupe de gérer les images pour les rendre plus génériques dans l'Archive.
+        </p>
+
+        <p>
+          Je pense que je suis satisfait par ce projet, le point d'amélioration que j'aimerai apporter aux archives serait l'optimisation car, sous la contrainte de temps, je n'ai pas eu le temps de me pencher dessus.
+          La partie documentation n'a pas été la partie la plus amusante à faire mais je pense avoir saisi à quel point elle peut être importante et je pense que dans un projet public je ferai mon maximum pour en concevoir une adaptée à un maximum de cas d'usage.
+        </p>
       </section>
     </article>
 
@@ -167,8 +267,8 @@
   </main>
 
   <footer class="site-footer">
-    <p>© <span id="year">2026</span> TODO nom</p>
-    <p class="credit">Design et contenu : TODO nom. Code écrit par <a href="https://www.anthropic.com/claude" rel="noopener">Claude</a> (modèles Claude Sonnet 5.5 et Claude Opus 5.5, Anthropic).</p>
+    <p>© <span id="year">2026</span> PONTHIEU Hugo</p>
+    <p class="credit">Design et contenu : PONTHIEU Hugo. Code écrit par <a href="https://www.anthropic.com/claude" rel="noopener">Claude</a> (modèles Claude Sonnet 5.5 et Claude Opus 5.5, Anthropic).</p>
   </footer>
 </body>
 </html>
